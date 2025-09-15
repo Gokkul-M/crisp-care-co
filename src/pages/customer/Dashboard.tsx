@@ -14,6 +14,7 @@ import {
   Truck,
   Home
 } from "lucide-react";
+import MobileNavbar from "@/components/MobileNavbar";
 
 const CustomerDashboard = () => {
   const [greeting, setGreeting] = useState("Good morning");
@@ -179,28 +180,7 @@ const CustomerDashboard = () => {
           ))}
         </Card>
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="mobile-nav">
-        <div className="flex items-center justify-around">
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 text-primary">
-            <Home className="h-5 w-5" />
-            <span className="text-xs">Home</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <Package className="h-5 w-5" />
-            <span className="text-xs">Orders</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <Gift className="h-5 w-5" />
-            <span className="text-xs">Offers</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <History className="h-5 w-5" />
-            <span className="text-xs">History</span>
-          </Button>
-        </div>
-      </div>
+      <MobileNavbar />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Plus, Minus, Camera, MapPin, Calendar, Clock } from "lucide-react";
+import MobileNavbar from "@/components/MobileNavbar";
 
 const BookService = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -66,7 +67,7 @@ const BookService = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-subtle pb-20">
+    <div className="min-h-screen bg-gradient-subtle pb-24">
       <div className="mobile-container py-6">
         {/* Header */}
         <div className="flex items-center mb-6">
@@ -245,6 +246,7 @@ const BookService = () => {
           </Button>
         )}
       </div>
+      <MobileNavbar />
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
   Calendar,
   Settings
 } from "lucide-react";
+import MobileNavbar from "@/components/MobileNavbar";
 
 const LaundererDashboard = () => {
   const [isOnline, setIsOnline] = useState(true);
@@ -67,7 +68,7 @@ const LaundererDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-subtle pb-20">
+    <div className="min-h-screen bg-gradient-subtle pb-24">
       <div className="mobile-container py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
@@ -229,28 +230,7 @@ const LaundererDashboard = () => {
           </div>
         </Card>
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="mobile-nav">
-        <div className="flex items-center justify-around">
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1 text-primary">
-            <TrendingUp className="h-5 w-5" />
-            <span className="text-xs">Dashboard</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <Package className="h-5 w-5" />
-            <span className="text-xs">Orders</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <DollarSign className="h-5 w-5" />
-            <span className="text-xs">Revenue</span>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex flex-col items-center space-y-1">
-            <Settings className="h-5 w-5" />
-            <span className="text-xs">Settings</span>
-          </Button>
-        </div>
-      </div>
+      <MobileNavbar />
     </div>
   );
 };
