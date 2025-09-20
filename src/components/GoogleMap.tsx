@@ -55,9 +55,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
   height = '100vh',
 }) => {
   const [selectedMarker, setSelectedMarker] = useState<LaundererLocation | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const onLoad = useCallback((map: google.maps.Map) => {
-    // Optional: Store map instance if needed
+    setIsLoaded(true);
   }, []);
 
   const onUnmount = useCallback(() => {
@@ -84,7 +85,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           options={mapOptions}
         >
           {/* User Location Marker */}
-          {showUserLocation && (
+          {isLoaded && showUserLocation && (
             <Marker
               position={center}
               icon={{
@@ -100,7 +101,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           )}
 
           {/* Launderer Markers */}
-          {laundrers.map((launderer) => (
+          {isLoaded && laundrers.map((launderer) => (
             <Marker
               key={launderer.id}
               position={{ lat: launderer.lat, lng: launderer.lng }}
