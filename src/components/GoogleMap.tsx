@@ -67,7 +67,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   return (
     <div style={{ height }} className="relative">
       <LoadScript
-        googleMapsApiKey={process.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}
+        googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}
         loadingElement={
           <div className="w-full h-full bg-muted animate-pulse flex items-center justify-center">
             <div className="text-muted-foreground">Loading map...</div>
