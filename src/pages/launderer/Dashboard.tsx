@@ -13,44 +13,12 @@ import {
   AlertCircle,
   Truck,
   Calendar,
-  Settings,
-  Menu,
-  Bell,
-  MapPin,
-  User
+  Settings
 } from "lucide-react";
 import MobileNavbar from "@/components/MobileNavbar";
-import MapComponent from "@/components/GoogleMap";
 
 const LaundererDashboard = () => {
   const [isOnline, setIsOnline] = useState(true);
-  
-  // Launderer's location (mockup)
-  const laundererLocation = { lat: 40.7128, lng: -74.0060 };
-
-  // Nearby customers/orders (mockup data)
-  const nearbyCustomers = [
-    {
-      id: "customer1",
-      name: "Sarah's Order",
-      lat: 40.7138,
-      lng: -74.0070,
-      rating: 5.0,
-      status: "available" as const,
-      estimatedTime: "Pickup needed",
-      services: ["Wash & Iron - 5 items"]
-    },
-    {
-      id: "customer2", 
-      name: "Mike's Order",
-      lat: 40.7118,
-      lng: -74.0050,
-      rating: 4.8,
-      status: "busy" as const,
-      estimatedTime: "Ready for delivery",
-      services: ["Dry Clean - 2 items"]
-    }
-  ];
 
   const stats = [
     { label: "Today's Orders", value: "12", icon: Package, color: "text-blue-600" },
@@ -100,149 +68,168 @@ const LaundererDashboard = () => {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Full-width Google Map */}
-      <div className="absolute inset-0">
-        <MapComponent
-          center={laundererLocation}
-          laundrers={nearbyCustomers}
-          showUserLocation={true}
-          height="100vh"
-        />
-      </div>
-
-      {/* Top Header - Floating */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-lg border-b border-border/50">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-              <Menu className="h-4 w-4" />
-            </Button>
-            <div>
-              <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
-              <p className="text-xs text-muted-foreground">{newOrders.length} new orders</p>
-            </div>
+    <div className="min-h-screen bg-gradient-subtle pb-24">
+      <div className="mobile-container py-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">Manage your laundry business</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-500'} animate-pulse`}></div>
-              <Switch checked={isOnline} onCheckedChange={setIsOnline} />
-            </div>
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-              <Settings className="h-4 w-4" />
-            </Button>
-          </div>
+          <Button variant="ghost" size="icon">
+            <Settings className="h-5 w-5" />
+          </Button>
         </div>
-      </div>
 
-      {/* Stats Cards - Floating */}
-      <div className="absolute top-20 left-4 right-4 z-10">
-        <div className="grid grid-cols-4 gap-2">
+        {/* Availability Toggle */}
+        <Card className="service-card mb-6 animate-fade-in">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                isOnline ? 'bg-green-100' : 'bg-gray-100'
+              }`}>
+                <Power className={`h-5 w-5 ${isOnline ? 'text-green-600' : 'text-gray-500'}`} />
+              </div>
+              <div>
+                <p className="font-medium">You're {isOnline ? 'Online' : 'Offline'}</p>
+                <p className="text-sm text-muted-foreground">
+                  {isOnline ? 'Accepting new orders' : 'Not accepting orders'}
+                </p>
+              </div>
+            </div>
+            <Switch checked={isOnline} onCheckedChange={setIsOnline} />
+          </div>
+        </Card>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
               <Card 
                 key={stat.label}
-                className="bg-background/95 backdrop-blur-lg border-border/50 shadow-sm p-2 text-center animate-fade-in"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="service-card text-center animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Icon className={`h-4 w-4 mx-auto mb-1 ${stat.color}`} />
-                <div className="text-lg font-bold text-foreground">{stat.value}</div>
+                <Icon className={`h-6 w-6 mx-auto mb-2 ${stat.color}`} />
+                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
                 <div className="text-xs text-muted-foreground">{stat.label}</div>
               </Card>
             );
           })}
         </div>
-      </div>
 
-      {/* Bottom Floating Order Cards */}
-      <div className="absolute bottom-20 left-0 right-0 z-10 px-4">
-        <div className="space-y-4 max-h-96 overflow-y-auto">
-          {/* New Orders Card */}
-          {newOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up">
-              <div className="p-4">
+        {/* New Orders */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold">New Orders</h3>
+            <Badge className="bg-primary/10 text-primary hover:bg-primary/10">
+              {newOrders.length} pending
+            </Badge>
+          </div>
+          
+          <div className="space-y-3">
+            {newOrders.map((order, index) => (
+              <Card 
+                key={order.id}
+                className="p-4 hover:shadow-medium transition-all animate-fade-in"
+                style={{ animationDelay: `${index * 100 + 300}ms` }}
+              >
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-sm">New Orders</h3>
-                  <Badge className="bg-primary/10 text-primary hover:bg-primary/10 text-xs">
-                    {newOrders.length} pending
+                  <div>
+                    <p className="font-medium text-sm">#{order.id} • {order.customer}</p>
+                    <p className="text-xs text-muted-foreground">{order.time}</p>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    New
                   </Badge>
                 </div>
-                <div className="space-y-3 max-h-48 overflow-y-auto">
-                  {newOrders.map((order, index) => (
-                    <div 
-                      key={order.id}
-                      className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                          <p className="text-xs text-muted-foreground">{order.time}</p>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          {order.amount}
-                        </Badge>
-                      </div>
-                      
-                      <div className="flex items-center justify-between text-xs mb-2">
-                        <span className="text-muted-foreground">{order.service} • {order.items} items</span>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        <Button size="sm" className="flex-1 text-xs h-7">
-                          Accept
-                        </Button>
-                        <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
-                          Decline
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Service:</span>
+                    <span>{order.service}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Items:</span>
+                    <span>{order.items} pieces</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Amount:</span>
+                    <span className="font-medium text-green-600">{order.amount}</span>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          )}
-
-          {/* Ongoing Orders Card */}
-          {ongoingOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up" style={{ animationDelay: '200ms' }}>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-sm">Ongoing Orders</h3>
-                  <Button variant="link" size="sm" className="text-primary p-0 text-xs">
-                    View All
+                
+                <div className="flex space-x-2 mt-4">
+                  <Button size="sm" className="flex-1">
+                    Accept
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex-1">
+                    Decline
                   </Button>
                 </div>
-                <div className="space-y-2">
-                  {ongoingOrders.slice(0, 2).map((order, index) => (
-                    <div 
-                      key={order.id}
-                      className="flex items-center space-x-3 p-2 rounded-lg bg-background/50 border border-border/50 animate-fade-in"
-                      style={{ animationDelay: `${index * 100 + 300}ms` }}
-                    >
-                      <div className={`w-2 h-2 ${order.statusColor} rounded-full`}></div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                          <span className="text-xs text-muted-foreground">{order.eta}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-muted-foreground">{order.service}</p>
-                          <Badge variant="secondary" className="text-xs">
-                            {order.status}
-                          </Badge>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          )}
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
 
+        {/* Ongoing Orders */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold">Ongoing Orders</h3>
+            <Button variant="link" size="sm" className="text-primary p-0">
+              View All
+            </Button>
+          </div>
+          
+          <div className="space-y-3">
+            {ongoingOrders.map((order, index) => (
+              <Card 
+                key={order.id}
+                className="p-4 hover:shadow-medium transition-all cursor-pointer animate-fade-in"
+                style={{ animationDelay: `${index * 100 + 500}ms` }}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className={`w-3 h-3 ${order.statusColor} rounded-full`}></div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="font-medium text-sm">#{order.id} • {order.customer}</p>
+                      <span className="text-xs text-muted-foreground">{order.eta}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-1">{order.service}</p>
+                    <Badge variant="secondary" className="text-xs">
+                      {order.status}
+                    </Badge>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <Card className="service-card animate-fade-in" style={{ animationDelay: '700ms' }}>
+          <h3 className="font-semibold mb-4">Quick Actions</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <Button variant="outline" size="sm" className="justify-start">
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Revenue Report
+            </Button>
+            <Button variant="outline" size="sm" className="justify-start">
+              <Calendar className="h-4 w-4 mr-2" />
+              Schedule
+            </Button>
+            <Button variant="outline" size="sm" className="justify-start">
+              <Truck className="h-4 w-4 mr-2" />
+              Deliveries
+            </Button>
+            <Button variant="outline" size="sm" className="justify-start">
+              <AlertCircle className="h-4 w-4 mr-2" />
+              Support
+            </Button>
+          </div>
+        </Card>
+      </div>
       <MobileNavbar />
     </div>
   );
