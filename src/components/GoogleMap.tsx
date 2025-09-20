@@ -55,10 +55,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
   height = '100vh',
 }) => {
   const [selectedMarker, setSelectedMarker] = useState<LaundererLocation | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const onLoad = useCallback((map: google.maps.Map) => {
-    setIsLoaded(true);
+    // Optional: Store map instance if needed
   }, []);
 
   const onUnmount = useCallback(() => {
@@ -68,7 +67,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   return (
     <div style={{ height }} className="relative">
       <LoadScript
-        googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}
+        googleMapsApiKey={process.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_API_KEY'}
         loadingElement={
           <div className="w-full h-full bg-muted animate-pulse flex items-center justify-center">
             <div className="text-muted-foreground">Loading map...</div>
@@ -85,7 +84,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           options={mapOptions}
         >
           {/* User Location Marker */}
-          {isLoaded && showUserLocation && (
+          {showUserLocation && (
             <Marker
               position={center}
               icon={{
@@ -101,7 +100,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           )}
 
           {/* Launderer Markers */}
-          {isLoaded && laundrers.map((launderer) => (
+          {laundrers.map((launderer) => (
             <Marker
               key={launderer.id}
               position={{ lat: launderer.lat, lng: launderer.lng }}
