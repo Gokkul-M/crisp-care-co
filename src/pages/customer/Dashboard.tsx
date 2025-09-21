@@ -1,36 +1,39 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
   Plus, 
   Package, 
-  Clock, 
   MapPin, 
   Bell, 
   Gift,
-  History,
-  Star,
   Truck,
-  Home,
-  Menu,
-  User,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  LogOut,
+  Home,
+  User
 } from "lucide-react";
-import MobileNavbar from "@/components/MobileNavbar";
 import MapComponent from "@/components/GoogleMap";
+import { useAuth } from "@/hooks/use-auth";
+import { useOrders } from "@/hooks/use-orders";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CustomerDashboard = () => {
-  const [greeting, setGreeting] = useState("Good morning");
-  const [selectedAction, setSelectedAction] = useState<string | null>(null);
   const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
+  const { logout } = useAuth();
+  const { orders } = useOrders();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // User's current location (mockup)
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   const userLocation = { lat: 40.7128, lng: -74.0060 };
 
-  // Nearby laundrers (mockup data)
   const nearbyLaundrers = [
     {
       id: "1",
@@ -52,16 +55,6 @@ const CustomerDashboard = () => {
       estimatedTime: "25 min",
       services: ["Wash & Iron", "Dry Clean"]
     },
-    {
-      id: "3",
-      name: "EcoWash Station",
-      lat: 40.7148,
-      lng: -74.0080,
-      rating: 4.9,
-      status: "available" as const,
-      estimatedTime: "20 min", 
-      services: ["Eco Wash", "Organic Clean"]
-    }
   ];
 
   const quickActions = [
@@ -70,37 +63,16 @@ const CustomerDashboard = () => {
     { icon: Gift, label: "Offers", color: "bg-accent", route: "/customer/offers" },
   ];
 
-  const recentOrders = [
-    {
-      id: "CC001",
-      status: "In Progress",
-      service: "Wash & Iron",
-      items: 5,
-      eta: "2 hours",
-      statusColor: "bg-yellow-500"
-    },
-    {
-      id: "CC002", 
-      status: "Completed",
-      service: "Dry Cleaning",
-      items: 2,
-      completedAt: "Yesterday",
-      statusColor: "bg-green-500"
-    }
+  const navItems = [
+    { icon: Home, label: "Home", route: "/customer/dashboard" },
+    { icon: Package, label: "Orders", route: "/customer/orders" },
+    { icon: User, label: "Profile", route: "/customer/profile" },
   ];
 
-  const offers = [
-    {
-      title: "20% OFF First Order",
-      description: "New customer special",
-      code: "WELCOME20",
-      expiry: "Valid till Dec 31"
-    }
-  ];
+  const recentOrders = orders.filter(order => order.status === 'in-process');
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Full-width Google Map */}
+    <div className="relative min-h-screen overflow-hidden pb-20">
       <div className="absolute inset-0">
         <MapComponent
           center={userLocation}
@@ -110,26 +82,29 @@ const CustomerDashboard = () => {
         />
       </div>
 
-      {/* Top Header - Minimal */}
       <div className="absolute top-0 left-0 right-0 z-10 bg-background/60 backdrop-blur-md">
         <div className="flex items-center justify-between p-4">
           <div>
             <h1 className="text-lg font-bold text-foreground">Hi Sarah!</h1>
             <p className="text-xs text-muted-foreground flex items-center gap-1">
               <MapPin className="w-3 h-3" />
-              3 laundrers nearby
+              {nearbyLaundrers.length} laundrers nearby
             </p>
           </div>
-          <Button variant="ghost" size="icon" className="w-9 h-9 relative">
-            <Bell className="h-4 w-4" />
-            <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-          </Button>
+          <div className="flex items-center space-x-1">
+            <Button variant="ghost" size="icon" className="w-9 h-9 relative">
+              <Bell className="h-4 w-4" />
+              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+            </Button>
+            <Button variant="ghost" size="icon" className="w-9 h-9" onClick={handleLogout}>
+              <LogOut className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Active Order Banner */}
       {recentOrders.length > 0 && (
-        <div className="absolute top-16 left-4 right-4 z-10">
+        <div className="absolute top-20 left-4 right-4 z-10">
           <Card className="bg-primary/95 text-primary-foreground backdrop-blur-md border-0 shadow-lg">
             <div className="p-3">
               <div className="flex items-center space-x-3">
@@ -138,9 +113,9 @@ const CustomerDashboard = () => {
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-sm">Order in progress</p>
-                  <p className="text-xs opacity-90">ETA: Today, 6:00 PM</p>
+                  <p className="text-xs opacity-90">ETA: {recentOrders[0].eta}</p>
                 </div>
-                <Button variant="secondary" size="sm" className="text-xs px-3">
+                <Button variant="secondary" size="sm" className="text-xs px-3" onClick={() => navigate('/customer/orders')}>
                   Track
                 </Button>
               </div>
@@ -149,21 +124,19 @@ const CustomerDashboard = () => {
         </div>
       )}
 
-      {/* Main Action Cards - Uber Style */}
-      <div className="absolute bottom-20 left-0 right-0 z-10 px-4">
+      <div className="absolute bottom-24 left-0 right-0 z-10 px-4">
         <Collapsible open={!isActionCardMinimized} onOpenChange={(open) => setIsActionCardMinimized(!open)}>
           <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-xl animate-slide-up">
-            {/* Minimized Header */}
             {isActionCardMinimized && (
               <CollapsibleTrigger asChild>
                 <div className="p-4 cursor-pointer hover:bg-muted/20 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="flex space-x-1">
-                        {quickActions.slice(0, 3).map((action, index) => {
+                        {quickActions.map((action) => {
                           const Icon = action.icon;
                           return (
-                            <div key={index} className={`w-8 h-8 ${action.color} rounded-lg flex items-center justify-center`}>
+                            <div key={action.label} className={`w-8 h-8 ${action.color} rounded-lg flex items-center justify-center`}>
                               <Icon className="h-4 w-4 text-white" />
                             </div>
                           );
@@ -177,7 +150,6 @@ const CustomerDashboard = () => {
               </CollapsibleTrigger>
             )}
             
-            {/* Expanded Content */}
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -198,7 +170,7 @@ const CustomerDashboard = () => {
                         size="lg"
                         className="w-full h-16 justify-start space-x-4 hover:bg-muted/50 group animate-fade-in"
                         style={{ animationDelay: `${index * 100}ms` }}
-                        onClick={() => window.location.href = action.route}
+                        onClick={() => navigate(action.route)}
                       >
                         <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform`}>
                           <Icon className="h-6 w-6 text-white" />
@@ -221,7 +193,27 @@ const CustomerDashboard = () => {
         </Collapsible>
       </div>
 
-      <MobileNavbar />
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t z-20">
+        <div className="flex justify-around items-center h-16">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.route;
+            return (
+              <Button
+                key={item.label}
+                variant="ghost"
+                className={`flex flex-col items-center justify-center h-full w-full rounded-lg transition-colors ${
+                  isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'
+                }`}
+                onClick={() => navigate(item.route)}
+              >
+                <Icon className={`h-5 w-5 mb-1 transition-transform ${isActive ? 'scale-110' : ''}`} />
+                <span className="text-[11px] font-medium">{item.label}</span>
+              </Button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
