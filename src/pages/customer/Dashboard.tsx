@@ -16,21 +16,36 @@ import {
   User
 } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
-import { useAuth } from "@/hooks/use-auth";
-import { useOrders } from "@/hooks/use-orders";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CustomerDashboard = () => {
   const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
-  const { logout } = useAuth();
-  const { orders } = useOrders();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleLogout = () => {
-    logout();
+    // Replace with actual logout logic
+    console.log("Logging out...");
     navigate('/');
   };
+
+  const orders = [
+    {
+      id: "1",
+      status: "in-process",
+      eta: "25 minutes",
+      items: [
+        { name: "T-Shirt", quantity: 5 },
+        { name: "Jeans", quantity: 2 },
+      ],
+      total: 45.00,
+      launderer: {
+        name: "Speedy Wash",
+        rating: 4.8,
+      },
+      orderDate: "2023-10-27T10:00:00Z",
+    },
+  ];
 
   const userLocation = { lat: 40.7128, lng: -74.0060 };
 
@@ -152,7 +167,7 @@ const CustomerDashboard = () => {
             
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-.tsx between mb-6">
                   <h2 className="text-lg font-bold text-foreground">What do you need?</h2>
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8">

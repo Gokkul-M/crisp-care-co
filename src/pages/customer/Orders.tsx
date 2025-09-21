@@ -14,7 +14,6 @@ import {
   MessageCircle,
   RefreshCw
 } from "lucide-react";
-import MobileNavbar from "@/components/MobileNavbar";
 
 const CustomerOrders = () => {
   const [selectedTab, setSelectedTab] = useState("active");
@@ -266,7 +265,6 @@ const CustomerOrders = () => {
           </TabsContent>
         </Tabs>
       </div>
-      <MobileNavbar />
     </div>
   );
 };

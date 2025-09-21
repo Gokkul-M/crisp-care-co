@@ -13,9 +13,8 @@ import {
   Users,
   Check
 } from "lucide-react";
-import MobileNavbar from "@/components/MobileNavbar";
 
-const CustomerOffers = () => {
+const Offers = () => {
   const [selectedTab, setSelectedTab] = useState("active");
   const [copiedCode, setCopiedCode] = useState("");
 
@@ -261,9 +260,8 @@ const CustomerOffers = () => {
           </div>
         </Card>
       </div>
-      <MobileNavbar />
     </div>
   );
 };
 
-export default CustomerOffers;
+export default Offers;

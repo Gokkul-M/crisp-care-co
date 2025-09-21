@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ const BookService = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedItems, setSelectedItems] = useState<{[key: string]: number}>({});
   const [totalAmount, setTotalAmount] = useState(0);
+  const navigate = useNavigate();
 
   const services = [
     {
@@ -74,7 +76,7 @@ const BookService = () => {
             variant="ghost"
             size="icon"
             className="mr-2"
-            onClick={() => window.location.href = '/customer/dashboard'}
+            onClick={() => navigate('/customer/dashboard')}
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>

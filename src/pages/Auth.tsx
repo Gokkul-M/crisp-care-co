@@ -5,17 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Phone, MessageCircle, Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSendOtp = async () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
+      console.log("Mock OTP: 123456"); // Log mock OTP
       setOtpSent(true);
       setLoading(false);
     }, 1500);
@@ -25,16 +28,19 @@ const Auth = () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
+      if (otp === "123456") {
+        navigate('/role-selection');
+      } else {
+        alert("Invalid OTP");
+      }
       setLoading(false);
-      // Redirect to role selection
-      window.location.href = '/role-selection';
     }, 1500);
   };
 
   const handleGoogleLogin = () => {
     // Simulate Google login
     setTimeout(() => {
-      window.location.href = '/role-selection';
+      navigate('/role-selection');
     }, 1000);
   };
 
@@ -47,7 +53,7 @@ const Auth = () => {
             variant="ghost"
             size="icon"
             className="mr-2"
-            onClick={() => window.location.href = '/'}
+            onClick={() => navigate('/')}
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>

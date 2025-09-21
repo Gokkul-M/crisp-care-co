@@ -2,9 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "@/hooks/use-auth";
-import { OrdersProvider } from "@/hooks/use-orders";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Auth from "./pages/Auth";
 import RoleSelection from "./pages/RoleSelection";
@@ -16,17 +14,16 @@ import CustomerOffers from "./pages/customer/Offers";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
 import LaundererProfile from "./pages/launderer/Profile";
+import OrderDetails from "./pages/launderer/OrderDetails";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useAuth();
-
   return (
     <Routes>
-      <Route path="/" element={!isAuthenticated ? <Welcome /> : <Navigate to="/role-selection" />} />
+      <Route path="/" element={<Welcome />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/role-selection" element={<RoleSelection />} />
       
@@ -41,6 +38,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute role="launderer" />}>
         <Route path="/launderer/dashboard" element={<LaundererDashboard />} />
         <Route path="/launderer/orders" element={<LaundererOrders />} />
+        <Route path="/launderer/orders/:orderId" element={<OrderDetails />} />
         <Route path="/launderer/profile" element={<LaundererProfile />} />
       </Route>
       
@@ -55,11 +53,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AuthProvider>
-          <OrdersProvider>
-            <AppRoutes />
-          </OrdersProvider>
-        </AuthProvider>
+        <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

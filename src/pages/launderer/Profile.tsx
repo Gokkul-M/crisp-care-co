@@ -21,7 +21,6 @@ import {
   Clock,
   Package
 } from "lucide-react";
-import MobileNavbar from "@/components/MobileNavbar";
 
 const LaundererProfile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -246,7 +245,6 @@ const LaundererProfile = () => {
           Logout
         </Button>
       </div>
-      <MobileNavbar />
     </div>
   );
 };

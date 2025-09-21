@@ -69,12 +69,12 @@ const Welcome = () => {
         <div className={`space-y-4 transition-all duration-1000 delay-500 ${
           isVisible ? 'animate-slide-up' : 'opacity-0 translate-y-10'
         }`}>
-          <Button className="service-button" onClick={() => navigate('/role-selection')}>Get Started</Button>
+          <Button className="service-button" onClick={() => navigate('/auth')}>Get Started</Button>
           
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Button variant="link" className="p-0 text-primary font-medium" onClick={() => navigate('/role-selection')}>Sign In</Button>
+              <Button variant="link" className="p-0 text-primary font-medium" onClick={() => navigate('/auth')}>Sign In</Button>
             </p>
           </div>
         </div>

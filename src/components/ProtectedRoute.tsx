@@ -1,13 +1,14 @@
-import { useAuth } from '@/hooks/use-auth';
 import { Navigate, Outlet } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   role: 'customer' | 'launderer';
 }
 
-const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
-  const { isAuthenticated, userRole } = useAuth();
+// Mock authentication
+const isAuthenticated = true;
+const userRole = 'launderer'; // or 'launderer'
 
+const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
   if (!isAuthenticated || userRole !== role) {
     return <Navigate to="/" replace />;
   }
