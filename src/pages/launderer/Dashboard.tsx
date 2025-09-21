@@ -23,10 +23,15 @@ import {
 } from "lucide-react";
 import MobileNavbar from "@/components/MobileNavbar";
 import MapComponent from "@/components/GoogleMap";
+import BulkOrderUpdate from "@/components/launderer/BulkOrderUpdate";
+import RevenueChart from "@/components/launderer/RevenueChart";
+import DisputeClaim from "@/components/launderer/DisputeClaim";
+import InventoryTracker from "@/components/launderer/InventoryTracker";
 
 const LaundererDashboard = () => {
   const [isOnline, setIsOnline] = useState(true);
   const [isNewOrdersMinimized, setIsNewOrdersMinimized] = useState(false);
+  const [isPendingOrdersMinimized, setIsPendingOrdersMinimized] = useState(false);
   const [isOngoingOrdersMinimized, setIsOngoingOrdersMinimized] = useState(false);
   
   // Launderer's location (mockup)
@@ -56,13 +61,6 @@ const LaundererDashboard = () => {
     }
   ];
 
-  const stats = [
-    { label: "Today's Orders", value: "12", icon: Package, color: "text-blue-600" },
-    { label: "Revenue", value: "$340", icon: DollarSign, color: "text-green-600" },
-    { label: "Completed", value: "8", icon: CheckCircle, color: "text-green-500" },
-    { label: "Pending", value: "4", icon: Clock, color: "text-yellow-500" },
-  ];
-
   const newOrders = [
     {
       id: "CC003",
@@ -71,7 +69,8 @@ const LaundererDashboard = () => {
       items: 3,
       amount: "$25",
       pickup: "123 Main St",
-      time: "2 min ago"
+      time: "2 min ago",
+      status: "pending" as const
     },
     {
       id: "CC004", 
@@ -80,7 +79,31 @@ const LaundererDashboard = () => {
       items: 2,
       amount: "$40",
       pickup: "456 Oak Ave",
-      time: "5 min ago"
+      time: "5 min ago",
+      status: "pending" as const
+    }
+  ];
+
+  const pendingOrders = [
+    {
+      id: "CC005",
+      customer: "Lisa Davis",
+      service: "Express Wash",
+      status: "in-process" as const,
+      amount: "$35",
+      items: 4,
+      pickup: "789 Pine St",
+      time: "15 min ago"
+    },
+    {
+      id: "CC006", 
+      customer: "Tom Wilson",
+      service: "Delicate Care",
+      status: "ready" as const,
+      amount: "$50",
+      items: 3,
+      pickup: "321 Oak Dr",
+      time: "30 min ago"
     }
   ];
 
@@ -91,7 +114,9 @@ const LaundererDashboard = () => {
       service: "Wash & Iron",
       status: "Washing",
       eta: "45 min",
-      statusColor: "bg-blue-500"
+      statusColor: "bg-blue-500",
+      amount: "$30",
+      items: 5
     },
     {
       id: "CC002",
@@ -99,8 +124,17 @@ const LaundererDashboard = () => {
       service: "Dry Cleaning",
       status: "Ready for Pickup",
       eta: "Now",
-      statusColor: "bg-green-500"
+      statusColor: "bg-green-500",
+      amount: "$45",
+      items: 3
     }
+  ];
+
+  const stats = [
+    { label: "Today's Orders", value: "12", icon: Package, color: "text-blue-600" },
+    { label: "Revenue", value: "$340", icon: DollarSign, color: "text-green-600" },
+    { label: "Completed", value: "8", icon: CheckCircle, color: "text-green-500" },
+    { label: "Pending", value: pendingOrders.length.toString(), icon: Clock, color: "text-yellow-500" },
   ];
 
   return (
@@ -124,7 +158,7 @@ const LaundererDashboard = () => {
             </Button>
             <div>
               <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
-              <p className="text-xs text-muted-foreground">{newOrders.length} new orders</p>
+              <p className="text-xs text-muted-foreground">{newOrders.length} new, {pendingOrders.length} pending</p>
             </div>
           </div>
           <div className="flex items-center space-x-2">
@@ -141,7 +175,7 @@ const LaundererDashboard = () => {
 
       {/* Stats Cards - Floating */}
       <div className="absolute top-20 left-4 right-4 z-10">
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 gap-2 mb-4">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -157,11 +191,28 @@ const LaundererDashboard = () => {
             );
           })}
         </div>
+        
+        {/* Action Buttons */}
+        <div className="flex space-x-2 overflow-x-auto pb-2">
+          <BulkOrderUpdate 
+            orders={[
+              ...newOrders.map(o => ({ ...o, status: o.status as "in-process" | "ready" | "delivered" | "pending" })),
+              ...pendingOrders.map(o => ({ ...o, status: o.status as "in-process" | "ready" | "delivered" | "pending" })),
+              ...ongoingOrders.map(o => ({ ...o, status: "in-process" as const }))
+            ]} 
+            onUpdateOrders={(orderIds, newStatus) => {
+              console.log('Updating orders:', orderIds, 'to status:', newStatus);
+            }}
+          />
+          <RevenueChart />
+          <DisputeClaim />
+          <InventoryTracker />
+        </div>
       </div>
 
       {/* Bottom Floating Order Cards */}
       <div className="absolute bottom-20 left-0 right-0 z-10 px-4">
-        <div className="space-y-4 max-h-96 overflow-y-auto">
+        <div className="space-y-4 max-h-80 overflow-y-auto">
           {/* New Orders Card */}
           {newOrders.length > 0 && (
             <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300">
@@ -233,6 +284,95 @@ const LaundererDashboard = () => {
                           </Button>
                           <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
                             Decline
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+
+          {/* Pending Orders Card */}
+          {pendingOrders.length > 0 && (
+            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300" style={{ animationDelay: '100ms' }}>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-semibold text-sm">Pending Orders</h3>
+                    <Badge className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/10 text-xs">
+                      {pendingOrders.length} in process
+                    </Badge>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={() => setIsPendingOrdersMinimized(!isPendingOrdersMinimized)}
+                  >
+                    {isPendingOrdersMinimized ? (
+                      <Maximize2 className="h-3 w-3" />
+                    ) : (
+                      <Minimize2 className="h-3 w-3" />
+                    )}
+                  </Button>
+                </div>
+                
+                {isPendingOrdersMinimized ? (
+                  <div className="flex space-x-2 overflow-x-auto">
+                    {pendingOrders.slice(0, 3).map((order, index) => (
+                      <div
+                        key={order.id}
+                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
+                        style={{ animationDelay: `${index * 50}ms` }}
+                      >
+                        <Clock className="h-4 w-4 text-yellow-500 mb-1" />
+                        <span className="text-xs font-medium">{order.amount}</span>
+                      </div>
+                    ))}
+                    {pendingOrders.length > 3 && (
+                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">+{pendingOrders.length - 3}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-3 max-h-48 overflow-y-auto">
+                    {pendingOrders.map((order, index) => (
+                      <div 
+                        key={order.id}
+                        className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div>
+                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
+                            <p className="text-xs text-muted-foreground">{order.time}</p>
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {order.amount}
+                          </Badge>
+                        </div>
+                        
+                        <div className="flex items-center justify-between text-xs mb-2">
+                          <span className="text-muted-foreground">{order.service} • {order.items} items</span>
+                          <Badge 
+                            variant="secondary" 
+                            className={`text-xs ${
+                              order.status === 'ready' ? 'bg-green-500/10 text-green-600' : 'bg-yellow-500/10 text-yellow-600'
+                            }`}
+                          >
+                            {order.status === 'ready' ? 'Ready' : 'In Process'}
+                          </Badge>
+                        </div>
+                        
+                        <div className="flex space-x-2">
+                          <Button size="sm" className="flex-1 text-xs h-7">
+                            Update Status
+                          </Button>
+                          <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
+                            View Details
                           </Button>
                         </div>
                       </div>
