@@ -1,4 +1,4 @@
-import { useAuth } from './use-auth';
+import { useAuth } from '@/hooks/use-auth';
 import { Navigate, Outlet } from 'react-router-dom';
 
 interface ProtectedRouteProps {
