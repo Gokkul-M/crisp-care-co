@@ -17,13 +17,17 @@ import {
   Menu,
   Bell,
   MapPin,
-  User
+  User,
+  Minimize2,
+  Maximize2
 } from "lucide-react";
 import MobileNavbar from "@/components/MobileNavbar";
 import MapComponent from "@/components/GoogleMap";
 
 const LaundererDashboard = () => {
   const [isOnline, setIsOnline] = useState(true);
+  const [isNewOrdersMinimized, setIsNewOrdersMinimized] = useState(false);
+  const [isOngoingOrdersMinimized, setIsOngoingOrdersMinimized] = useState(false);
   
   // Launderer's location (mockup)
   const laundererLocation = { lat: 40.7128, lng: -74.0060 };
@@ -160,83 +164,153 @@ const LaundererDashboard = () => {
         <div className="space-y-4 max-h-96 overflow-y-auto">
           {/* New Orders Card */}
           {newOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up">
+            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300">
               <div className="p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-sm">New Orders</h3>
-                  <Badge className="bg-primary/10 text-primary hover:bg-primary/10 text-xs">
-                    {newOrders.length} pending
-                  </Badge>
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-semibold text-sm">New Orders</h3>
+                    <Badge className="bg-primary/10 text-primary hover:bg-primary/10 text-xs">
+                      {newOrders.length} pending
+                    </Badge>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={() => setIsNewOrdersMinimized(!isNewOrdersMinimized)}
+                  >
+                    {isNewOrdersMinimized ? (
+                      <Maximize2 className="h-3 w-3" />
+                    ) : (
+                      <Minimize2 className="h-3 w-3" />
+                    )}
+                  </Button>
                 </div>
-                <div className="space-y-3 max-h-48 overflow-y-auto">
-                  {newOrders.map((order, index) => (
-                    <div 
-                      key={order.id}
-                      className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div>
-                          <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                          <p className="text-xs text-muted-foreground">{order.time}</p>
+                
+                {isNewOrdersMinimized ? (
+                  <div className="flex space-x-2 overflow-x-auto">
+                    {newOrders.slice(0, 3).map((order, index) => (
+                      <div
+                        key={order.id}
+                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
+                        style={{ animationDelay: `${index * 50}ms` }}
+                      >
+                        <Package className="h-4 w-4 text-primary mb-1" />
+                        <span className="text-xs font-medium">{order.amount}</span>
+                      </div>
+                    ))}
+                    {newOrders.length > 3 && (
+                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">+{newOrders.length - 3}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-3 max-h-48 overflow-y-auto">
+                    {newOrders.map((order, index) => (
+                      <div 
+                        key={order.id}
+                        className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div>
+                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
+                            <p className="text-xs text-muted-foreground">{order.time}</p>
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            {order.amount}
+                          </Badge>
                         </div>
-                        <Badge variant="outline" className="text-xs">
-                          {order.amount}
-                        </Badge>
+                        
+                        <div className="flex items-center justify-between text-xs mb-2">
+                          <span className="text-muted-foreground">{order.service} • {order.items} items</span>
+                        </div>
+                        
+                        <div className="flex space-x-2">
+                          <Button size="sm" className="flex-1 text-xs h-7">
+                            Accept
+                          </Button>
+                          <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
+                            Decline
+                          </Button>
+                        </div>
                       </div>
-                      
-                      <div className="flex items-center justify-between text-xs mb-2">
-                        <span className="text-muted-foreground">{order.service} • {order.items} items</span>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        <Button size="sm" className="flex-1 text-xs h-7">
-                          Accept
-                        </Button>
-                        <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
-                          Decline
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </Card>
           )}
 
           {/* Ongoing Orders Card */}
           {ongoingOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up" style={{ animationDelay: '200ms' }}>
+            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300" style={{ animationDelay: '200ms' }}>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-semibold text-sm">Ongoing Orders</h3>
-                  <Button variant="link" size="sm" className="text-primary p-0 text-xs">
-                    View All
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  {ongoingOrders.slice(0, 2).map((order, index) => (
-                    <div 
-                      key={order.id}
-                      className="flex items-center space-x-3 p-2 rounded-lg bg-background/50 border border-border/50 animate-fade-in"
-                      style={{ animationDelay: `${index * 100 + 300}ms` }}
+                  <div className="flex items-center space-x-2">
+                    <Button variant="link" size="sm" className="text-primary p-0 text-xs">
+                      View All
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={() => setIsOngoingOrdersMinimized(!isOngoingOrdersMinimized)}
                     >
-                      <div className={`w-2 h-2 ${order.statusColor} rounded-full`}></div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                          <span className="text-xs text-muted-foreground">{order.eta}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-muted-foreground">{order.service}</p>
-                          <Badge variant="secondary" className="text-xs">
-                            {order.status}
-                          </Badge>
+                      {isOngoingOrdersMinimized ? (
+                        <Maximize2 className="h-3 w-3" />
+                      ) : (
+                        <Minimize2 className="h-3 w-3" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+                
+                {isOngoingOrdersMinimized ? (
+                  <div className="flex space-x-2 overflow-x-auto">
+                    {ongoingOrders.slice(0, 3).map((order, index) => (
+                      <div
+                        key={order.id}
+                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
+                        style={{ animationDelay: `${index * 50}ms` }}
+                      >
+                        <div className={`w-3 h-3 ${order.statusColor} rounded-full mb-1`}></div>
+                        <span className="text-xs font-medium">{order.eta}</span>
+                      </div>
+                    ))}
+                    {ongoingOrders.length > 3 && (
+                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
+                        <span className="text-xs text-muted-foreground">+{ongoingOrders.length - 3}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {ongoingOrders.slice(0, 2).map((order, index) => (
+                      <div 
+                        key={order.id}
+                        className="flex items-center space-x-3 p-2 rounded-lg bg-background/50 border border-border/50 animate-fade-in"
+                        style={{ animationDelay: `${index * 100 + 300}ms` }}
+                      >
+                        <div className={`w-2 h-2 ${order.statusColor} rounded-full`}></div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
+                            <span className="text-xs text-muted-foreground">{order.eta}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs text-muted-foreground">{order.service}</p>
+                            <Badge variant="secondary" className="text-xs">
+                              {order.status}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </Card>
           )}
