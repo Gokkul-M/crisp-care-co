@@ -2,460 +2,192 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { 
-  Power, 
+  Plus, 
   Package, 
-  TrendingUp, 
-  Clock, 
-  DollarSign,
-  CheckCircle,
-  AlertCircle,
+  Bell, 
   Truck,
-  Calendar,
-  Settings,
-  Menu,
-  Bell,
-  MapPin,
+  ChevronUp,
+  ChevronDown,
+  LogOut,
+  Home,
   User,
-  Minimize2,
-  Maximize2
+  BarChart2,
+  Settings,
+  ShieldAlert
 } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
-import BulkOrderUpdate from "@/components/launderer/BulkOrderUpdate";
-import RevenueChart from "@/components/launderer/RevenueChart";
-import DisputeClaim from "@/components/launderer/DisputeClaim";
-import InventoryTracker from "@/components/launderer/InventoryTracker";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LaundererDashboard = () => {
+  const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
-  const [isNewOrdersMinimized, setIsNewOrdersMinimized] = useState(false);
-  const [isPendingOrdersMinimized, setIsPendingOrdersMinimized] = useState(false);
-  const [isOngoingOrdersMinimized, setIsOngoingOrdersMinimized] = useState(false);
   const navigate = useNavigate();
-  
-  // Launderer's location (mockup)
-  const laundererLocation = { lat: 40.7128, lng: -74.0060 };
+  const location = useLocation();
 
-  // Nearby customers/orders (mockup data)
-  const nearbyCustomers = [
-    {
-      id: "customer1",
-      name: "Sarah's Order",
-      lat: 40.7138,
-      lng: -74.0070,
-      rating: 5.0,
-      status: "available" as const,
-      estimatedTime: "Pickup needed",
-      services: ["Wash & Iron - 5 items"]
-    },
-    {
-      id: "customer2", 
-      name: "Mike's Order",
-      lat: 40.7118,
-      lng: -74.0050,
-      rating: 4.8,
-      status: "busy" as const,
-      estimatedTime: "Ready for delivery",
-      services: ["Dry Clean - 2 items"]
-    }
-  ];
+  const handleLogout = () => {
+    console.log("Logging out...");
+    navigate('/');
+  };
+
+  const laundererLocation = { lat: 40.7128, lng: -74.0060 };
 
   const newOrders = [
     {
-      id: "CC003",
-      customer: "John Smith",
-      service: "Wash & Iron",
-      items: 3,
-      amount: "$25",
-      pickup: "123 Main St",
-      time: "2 min ago",
-      status: "pending" as const
+      id: "1",
+      customer: "John Doe",
+      distance: "1.2km away"
     },
-    {
-      id: "CC004", 
-      customer: "Emma Wilson",
-      service: "Dry Cleaning",
-      items: 2,
-      amount: "$40",
-      pickup: "456 Oak Ave",
-      time: "5 min ago",
-      status: "pending" as const
-    }
   ];
 
-  const pendingOrders = [
-    {
-      id: "CC005",
-      customer: "Lisa Davis",
-      service: "Express Wash",
-      status: "in-process" as const,
-      amount: "$35",
-      items: 4,
-      pickup: "789 Pine St",
-      time: "15 min ago"
-    },
-    {
-      id: "CC006", 
-      customer: "Tom Wilson",
-      service: "Delicate Care",
-      status: "ready" as const,
-      amount: "$50",
-      items: 3,
-      pickup: "321 Oak Dr",
-      time: "30 min ago"
-    }
+  const quickActions = [
+    { icon: Plus, label: "New Order", color: "bg-blue-500", route: "/launderer/new-order" },
+    { icon: Package, label: "All Orders", color: "bg-orange-500", route: "/launderer/orders" },
+    { icon: BarChart2, label: "Revenue", color: "bg-green-500", route: "/launderer/revenue" },
+    { icon: ShieldAlert, label: "Dispute/Claim", color: "bg-red-500", route: "/launderer/dispute" },
   ];
 
-  const ongoingOrders = [
-    {
-      id: "CC001",
-      customer: "Sarah Johnson",
-      service: "Wash & Iron",
-      status: "Washing",
-      eta: "45 min",
-      statusColor: "bg-blue-500",
-      amount: "$30",
-      items: 5
-    },
-    {
-      id: "CC002",
-      customer: "Mike Brown", 
-      service: "Dry Cleaning",
-      status: "Ready for Pickup",
-      eta: "Now",
-      statusColor: "bg-green-500",
-      amount: "$45",
-      items: 3
-    }
-  ];
-
-  const stats = [
-    { label: "Today's Orders", value: "12", icon: Package, color: "text-blue-600" },
-    { label: "Revenue", value: "$340", icon: DollarSign, color: "text-green-600" },
-    { label: "Completed", value: "8", icon: CheckCircle, color: "text-green-500" },
-    { label: "Pending", value: pendingOrders.length.toString(), icon: Clock, color: "text-yellow-500" },
+  const navItems = [
+    { icon: Home, label: "Home", route: "/launderer/dashboard" },
+    { icon: Package, label: "Orders", route: "/launderer/orders" },
+    { icon: Settings, label: "Settings", route: "/launderer/settings" },
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Full-width Google Map */}
+    <div className="relative min-h-screen overflow-hidden pb-20">
       <div className="absolute inset-0">
         <MapComponent
           center={laundererLocation}
-          laundrers={nearbyCustomers}
           showUserLocation={true}
           height="100vh"
         />
       </div>
 
-      {/* Top Header - Floating */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-lg border-b border-border/50">
+      <div className="absolute top-0 left-0 right-0 z-10 bg-background/60 backdrop-blur-md">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-              <Menu className="h-4 w-4" />
-            </Button>
-            <div>
-              <h1 className="text-lg font-bold text-foreground">Dashboard</h1>
-              <p className="text-xs text-muted-foreground">{newOrders.length} new, {pendingOrders.length} pending</p>
-            </div>
+            <div className={`w-3 h-3 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-400'} transition-colors border-2 border-background shadow-sm`}></div>
+            <h1 className="text-lg font-bold text-foreground">Hi Laundromat!</h1>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-gray-500'} animate-pulse`}></div>
-              <Switch checked={isOnline} onCheckedChange={setIsOnline} />
-            </div>
-            <Button variant="ghost" size="icon" className="w-8 h-8">
-              <Settings className="h-4 w-4" />
+            <Switch id="online-status" checked={isOnline} onCheckedChange={setIsOnline} />
+            <Label htmlFor="online-status" className="text-xs font-medium text-muted-foreground">
+              {isOnline ? "Online" : "Offline"}
+            </Label>
+            <Button variant="ghost" size="icon" className="w-9 h-9" onClick={handleLogout}>
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Stats Cards - Floating */}
-      <div className="absolute top-20 left-4 right-4 z-10">
-        <div className="grid grid-cols-4 gap-2 mb-4">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <Card 
-                key={stat.label}
-                className="bg-background/95 backdrop-blur-lg border-border/50 shadow-sm p-2 text-center animate-fade-in"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <Icon className={`h-4 w-4 mx-auto mb-1 ${stat.color}`} />
-                <div className="text-lg font-bold text-foreground">{stat.value}</div>
-                <div className="text-xs text-muted-foreground">{stat.label}</div>
-              </Card>
-            );
-          })}
+      {isOnline && newOrders.length > 0 && (
+        <div className="absolute top-20 left-4 right-4 z-10">
+          <Card className="bg-primary/95 text-primary-foreground backdrop-blur-md border-0 shadow-lg">
+            <div className="p-3">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-background/20 rounded-full flex items-center justify-center">
+                  <Bell className="h-5 w-5 animate-wiggle" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-semibold text-sm">New Order!</p>
+                  <p className="text-xs opacity-90">{newOrders[0].customer} is {newOrders[0].distance}</p>
+                </div>
+                <Button variant="secondary" size="sm" className="text-xs px-3" onClick={() => navigate('/launderer/orders')}>
+                  View
+                </Button>
+              </div>
+            </div>
+          </Card>
         </div>
-        
-        {/* Action Buttons */}
-        <div className="flex space-x-2 overflow-x-auto pb-2">
-          <BulkOrderUpdate 
-            orders={[
-              ...newOrders.map(o => ({ ...o, status: o.status as "in-process" | "ready" | "delivered" | "pending" })),
-              ...pendingOrders.map(o => ({ ...o, status: o.status as "in-process" | "ready" | "delivered" | "pending" })),
-              ...ongoingOrders.map(o => ({ ...o, status: "in-process" as const }))
-            ]} 
-            onUpdateOrders={(orderIds, newStatus) => {
-              console.log('Updating orders:', orderIds, 'to status:', newStatus);
-            }}
-          />
-          <RevenueChart />
-          <DisputeClaim />
-          <InventoryTracker />
-        </div>
+      )}
+
+      <div className="absolute bottom-24 left-0 right-0 z-10 px-4">
+        <Collapsible open={!isActionCardMinimized} onOpenChange={(open) => setIsActionCardMinimized(!open)}>
+          <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-xl animate-slide-up">
+            {isActionCardMinimized && (
+              <CollapsibleTrigger asChild>
+                <div className="p-4 cursor-pointer hover:bg-muted/20 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex space-x-1">
+                        {quickActions.map((action) => {
+                          const Icon = action.icon;
+                          return (
+                            <div key={action.label} className={`w-8 h-8 ${action.color} rounded-lg flex items-center justify-center`}>
+                              <Icon className="h-4 w-4 text-white" />
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <p className="text-sm font-medium text-foreground">Quick Actions</p>
+                    </div>
+                    <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                </div>
+              </CollapsibleTrigger>
+            )}
+            
+            <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-bold text-foreground">Quick Actions</h2>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
+                <div className="space-y-4">
+                  {quickActions.map((action, index) => {
+                    const Icon = action.icon;
+                    return (
+                      <Button
+                        key={action.label}
+                        variant="ghost"
+                        size="lg"
+                        className="w-full h-16 justify-start space-x-4 hover:bg-muted/50 group animate-fade-in"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                        onClick={() => navigate(action.route)}
+                      >
+                        <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform`}>
+                          <Icon className="h-6 w-6 text-white" />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <p className="font-semibold text-foreground">{action.label}</p>
+                        </div>
+                      </Button>
+                    );
+                  })}
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
       </div>
 
-      {/* Bottom Floating Order Cards */}
-      <div className="absolute bottom-20 left-0 right-0 z-10 px-4">
-        <div className="space-y-4 max-h-80 overflow-y-auto">
-          {/* New Orders Card */}
-          {newOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300">
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="font-semibold text-sm">New Orders</h3>
-                    <Badge className="bg-primary/10 text-primary hover:bg-primary/10 text-xs">
-                      {newOrders.length} pending
-                    </Badge>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6"
-                    onClick={() => setIsNewOrdersMinimized(!isNewOrdersMinimized)}
-                  >
-                    {isNewOrdersMinimized ? (
-                      <Maximize2 className="h-3 w-3" />
-                    ) : (
-                      <Minimize2 className="h-3 w-3" />
-                    )}
-                  </Button>
-                </div>
-                
-                {isNewOrdersMinimized ? (
-                  <div className="flex space-x-2 overflow-x-auto">
-                    {newOrders.slice(0, 3).map((order, index) => (
-                      <div
-                        key={order.id}
-                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <Package className="h-4 w-4 text-primary mb-1" />
-                        <span className="text-xs font-medium">{order.amount}</span>
-                      </div>
-                    ))}
-                    {newOrders.length > 3 && (
-                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
-                        <span className="text-xs text-muted-foreground">+{newOrders.length - 3}</span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-3 max-h-48 overflow-y-auto">
-                    {newOrders.map((order, index) => (
-                      <div 
-                        key={order.id}
-                        className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
-                        style={{ animationDelay: `${index * 100}ms` }}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                            <p className="text-xs text-muted-foreground">{order.time}</p>
-                          </div>
-                          <Badge variant="outline" className="text-xs">
-                            {order.amount}
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex items-center justify-between text-xs mb-2">
-                          <span className="text-muted-foreground">{order.service} • {order.items} items</span>
-                        </div>
-                        
-                        <div className="flex space-x-2">
-                          <Button size="sm" className="flex-1 text-xs h-7">
-                            Accept
-                          </Button>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs h-7">
-                            Decline
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Card>
-          )}
-
-          {/* Pending Orders Card */}
-          {pendingOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300" style={{ animationDelay: '100ms' }}>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="font-semibold text-sm">Pending Orders</h3>
-                    <Badge className="bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/10 text-xs">
-                      {pendingOrders.length} in process
-                    </Badge>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6"
-                    onClick={() => setIsPendingOrdersMinimized(!isPendingOrdersMinimized)}
-                  >
-                    {isPendingOrdersMinimized ? (
-                      <Maximize2 className="h-3 w-3" />
-                    ) : (
-                      <Minimize2 className="h-3 w-3" />
-                    )}
-                  </Button>
-                </div>
-                
-                {isPendingOrdersMinimized ? (
-                  <div className="flex space-x-2 overflow-x-auto">
-                    {pendingOrders.slice(0, 3).map((order, index) => (
-                      <div
-                        key={order.id}
-                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <Clock className="h-4 w-4 text-yellow-500 mb-1" />
-                        <span className="text-xs font-medium">{order.amount}</span>
-                      </div>
-                    ))}
-                    {pendingOrders.length > 3 && (
-                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
-                        <span className="text-xs text-muted-foreground">+{pendingOrders.length - 3}</span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-3 max-h-48 overflow-y-auto">
-                    {pendingOrders.map((order, index) => (
-                      <div 
-                        key={order.id}
-                        className="border border-border/50 rounded-lg p-3 bg-background/50 animate-fade-in"
-                        style={{ animationDelay: `${index * 100}ms` }}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div>
-                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                            <p className="text-xs text-muted-foreground">{order.time}</p>
-                          </div>
-                          <Badge variant="outline" className="text-xs">
-                            {order.amount}
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex items-center justify-between text-xs mb-2">
-                          <span className="text-muted-foreground">{order.service} • {order.items} items</span>
-                          <Badge 
-                            variant="secondary" 
-                            className={`text-xs ${
-                              order.status === 'ready' ? 'bg-green-500/10 text-green-600' : 'bg-yellow-500/10 text-yellow-600'
-                            }`}
-                          >
-                            {order.status === 'ready' ? 'Ready' : 'In Process'}
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex space-x-2">
-                          <Button size="sm" className="flex-1 text-xs h-7">
-                            Update Status
-                          </Button>
-                          <Button variant="outline" size="sm" className="flex-1 text-xs h-7" onClick={() => navigate(`/launderer/orders/${order.id}`)}>
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Card>
-          )}
-
-          {/* Ongoing Orders Card */}
-          {ongoingOrders.length > 0 && (
-            <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-lg animate-slide-up transition-all duration-300" style={{ animationDelay: '200ms' }}>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-sm">Ongoing Orders</h3>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="link" size="sm" className="text-primary p-0 text-xs">
-                      View All
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      onClick={() => setIsOngoingOrdersMinimized(!isOngoingOrdersMinimized)}
-                    >
-                      {isOngoingOrdersMinimized ? (
-                        <Maximize2 className="h-3 w-3" />
-                      ) : (
-                        <Minimize2 className="h-3 w-3" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-                
-                {isOngoingOrdersMinimized ? (
-                  <div className="flex space-x-2 overflow-x-auto">
-                    {ongoingOrders.slice(0, 3).map((order, index) => (
-                      <div
-                        key={order.id}
-                        className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex flex-col items-center justify-center animate-fade-in"
-                        style={{ animationDelay: `${index * 50}ms` }}
-                      >
-                        <div className={`w-3 h-3 ${order.statusColor} rounded-full mb-1`}></div>
-                        <span className="text-xs font-medium">{order.eta}</span>
-                      </div>
-                    ))}
-                    {ongoingOrders.length > 3 && (
-                      <div className="flex-shrink-0 w-16 h-16 border border-border/50 rounded-lg p-2 bg-background/50 flex items-center justify-center">
-                        <span className="text-xs text-muted-foreground">+{ongoingOrders.length - 3}</span>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {ongoingOrders.slice(0, 2).map((order, index) => (
-                      <div 
-                        key={order.id}
-                        className="flex items-center space-x-3 p-2 rounded-lg bg-background/50 border border-border/50 animate-fade-in"
-                        style={{ animationDelay: `${index * 100 + 300}ms` }}
-                      >
-                        <div className={`w-2 h-2 ${order.statusColor} rounded-full`}></div>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <p className="font-medium text-xs">#{order.id} • {order.customer}</p>
-                            <span className="text-xs text-muted-foreground">{order.eta}</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <p className="text-xs text-muted-foreground">{order.service}</p>
-                            <Badge variant="secondary" className="text-xs">
-                              {order.status}
-                            </Badge>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Card>
-          )}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t z-20">
+        <div className="flex justify-around items-center h-16">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.route;
+            return (
+              <Button
+                key={item.label}
+                variant="ghost"
+                className={`flex flex-col items-center justify-center h-full w-full rounded-lg transition-colors ${
+                  isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'
+                }`}
+                onClick={() => navigate(item.route)}
+              >
+                <Icon className={`h-5 w-5 mb-1 transition-transform ${isActive ? 'scale-110' : ''}`} />
+                <span className="text-[11px] font-medium">{item.label}</span>
+              </Button>
+            );
+          })}
         </div>
       </div>
     </div>

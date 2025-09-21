@@ -13,8 +13,11 @@ import CustomerProfile from "./pages/customer/Profile";
 import CustomerOffers from "./pages/customer/Offers";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
-import LaundererProfile from "./pages/launderer/Profile";
+import LaundererSettings from "./pages/launderer/Settings";
 import OrderDetails from "./pages/launderer/OrderDetails";
+import NewOrder from "./pages/launderer/NewOrder";
+import Revenue from "./pages/launderer/Revenue";
+import Dispute from "./pages/launderer/Dispute";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -39,7 +42,10 @@ const AppRoutes = () => {
         <Route path="/launderer/dashboard" element={<LaundererDashboard />} />
         <Route path="/launderer/orders" element={<LaundererOrders />} />
         <Route path="/launderer/orders/:orderId" element={<OrderDetails />} />
-        <Route path="/launderer/profile" element={<LaundererProfile />} />
+        <Route path="/launderer/settings" element={<LaundererSettings />} />
+        <Route path="/launderer/new-order" element={<NewOrder />} />
+        <Route path="/launderer/revenue" element={<Revenue />} />
+        <Route path="/launderer/dispute" element={<Dispute />} />
       </Route>
       
       <Route path="*" element={<NotFound />} />
