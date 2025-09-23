@@ -4,13 +4,12 @@ interface ProtectedRouteProps {
   role: 'customer' | 'launderer';
 }
 
-// Mock authentication
-const isAuthenticated = true;
-const userRole = 'launderer'; // or 'launderer'
-
 const ProtectedRoute = ({ role }: ProtectedRouteProps) => {
+  const isAuthenticated = !!localStorage.getItem('userRole');
+  const userRole = localStorage.getItem('userRole');
+
   if (!isAuthenticated || userRole !== role) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   return <Outlet />;

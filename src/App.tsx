@@ -9,7 +9,7 @@ import RoleSelection from "./pages/RoleSelection";
 import CustomerDashboard from "./pages/customer/Dashboard";
 import BookService from "./pages/customer/BookService";
 import CustomerOrders from "./pages/customer/Orders";
-import CustomerProfile from "./pages/customer/Profile";
+import CustomerSettings from "./pages/customer/Settings";
 import CustomerOffers from "./pages/customer/Offers";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
@@ -20,6 +20,7 @@ import Revenue from "./pages/launderer/Revenue";
 import Dispute from "./pages/launderer/Dispute";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import CustomerLayout from "@/components/CustomerLayout";
 
 const queryClient = new QueryClient();
 
@@ -31,11 +32,26 @@ const AppRoutes = () => {
       <Route path="/role-selection" element={<RoleSelection />} />
       
       <Route element={<ProtectedRoute role="customer" />}>
-        <Route path="/customer/dashboard" element={<CustomerDashboard />} />
-        <Route path="/customer/book" element={<BookService />} />
-        <Route path="/customer/orders" element={<CustomerOrders />} />
-        <Route path="/customer/profile" element={<CustomerProfile />} />
-        <Route path="/customer/offers" element={<CustomerOffers />} />
+        <Route 
+          path="/customer/dashboard" 
+          element={<CustomerLayout><CustomerDashboard /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/book" 
+          element={<CustomerLayout><BookService /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/orders" 
+          element={<CustomerLayout><CustomerOrders /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/settings" 
+          element={<CustomerLayout><CustomerSettings /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/offers" 
+          element={<CustomerLayout><CustomerOffers /></CustomerLayout>} 
+        />
       </Route>
       
       <Route element={<ProtectedRoute role="launderer" />}>

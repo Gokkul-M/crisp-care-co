@@ -11,10 +11,13 @@ const RoleSelection = () => {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    if (selectedRole === 'customer') {
-      navigate('/customer/dashboard');
-    } else if (selectedRole === 'launderer') {
-      navigate('/launderer/dashboard');
+    if (selectedRole) {
+      localStorage.setItem('userRole', selectedRole);
+      if (selectedRole === 'customer') {
+        navigate('/customer/dashboard');
+      } else if (selectedRole === 'launderer') {
+        navigate('/launderer/dashboard');
+      }
     }
   };
 

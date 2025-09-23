@@ -11,17 +11,14 @@ import {
   Truck,
   ChevronUp,
   ChevronDown,
-  LogOut,
-  Home,
-  User
+  LogOut
 } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CustomerDashboard = () => {
   const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = () => {
     // Replace with actual logout logic
@@ -78,16 +75,10 @@ const CustomerDashboard = () => {
     { icon: Gift, label: "Offers", color: "bg-accent", route: "/customer/offers" },
   ];
 
-  const navItems = [
-    { icon: Home, label: "Home", route: "/customer/dashboard" },
-    { icon: Package, label: "Orders", route: "/customer/orders" },
-    { icon: User, label: "Profile", route: "/customer/profile" },
-  ];
-
   const recentOrders = orders.filter(order => order.status === 'in-process');
 
   return (
-    <div className="relative min-h-screen overflow-hidden pb-20">
+    <div className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0">
         <MapComponent
           center={userLocation}
@@ -167,7 +158,7 @@ const CustomerDashboard = () => {
             
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
               <div className="p-6">
-                <div className="flex items-center justify-.tsx between mb-6">
+                <div className="flex items-center justify-between mb-6">
                   <h2 className="text-lg font-bold text-foreground">What do you need?</h2>
                   <CollapsibleTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -206,28 +197,6 @@ const CustomerDashboard = () => {
             </CollapsibleContent>
           </Card>
         </Collapsible>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t z-20">
-        <div className="flex justify-around items-center h-16">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.route;
-            return (
-              <Button
-                key={item.label}
-                variant="ghost"
-                className={`flex flex-col items-center justify-center h-full w-full rounded-lg transition-colors ${
-                  isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'
-                }`}
-                onClick={() => navigate(item.route)}
-              >
-                <Icon className={`h-5 w-5 mb-1 transition-transform ${isActive ? 'scale-110' : ''}`} />
-                <span className="text-[11px] font-medium">{item.label}</span>
-              </Button>
-            );
-          })}
-        </div>
       </div>
     </div>
   );
