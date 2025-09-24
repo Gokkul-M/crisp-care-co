@@ -101,7 +101,7 @@ const EditProfile = () => {
                         <div className="grid grid-cols-2 gap-3">
                             <Button variant={paymentMode === 'cod' ? 'default' : 'outline'} onClick={() => setPaymentMode('cod')} className="h-12 text-sm">
                                 <CreditCard className="h-5 w-5 mr-2" />
-                                Cash on Delivery
+                                Cash
                             </Button>
                             <Button variant={paymentMode === 'online' ? 'default' : 'outline'} onClick={() => setPaymentMode('online')} className="h-12 text-sm">
                                 Online Payment
