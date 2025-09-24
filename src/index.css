@@ -96,6 +96,19 @@
 }
 
 @layer utilities {
+  /* Shadow utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
   .mobile-container {
     @apply max-w-sm mx-auto px-4;
   }
