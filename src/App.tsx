@@ -15,6 +15,7 @@ import CustomerOrders from "./pages/customer/Orders";
 import CustomerSettings from "./pages/customer/Settings";
 import CustomerOffers from "./pages/customer/Offers";
 import EditProfile from "./pages/customer/EditProfile";
+import Search from "./pages/customer/Search";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
 import LaundererSettings from "./pages/launderer/Settings";
@@ -25,6 +26,7 @@ import Dispute from "./pages/launderer/Dispute";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import CustomerLayout from "@/components/CustomerLayout";
+import LaundererLayout from "@/components/LaundererLayout";
 
 const queryClient = new QueryClient();
 
@@ -62,16 +64,20 @@ const AppRoutes = () => {
           path="/customer/edit-profile" 
           element={<CustomerLayout><EditProfile /></CustomerLayout>} 
         />
+        <Route 
+          path="/customer/search" 
+          element={<CustomerLayout><Search /></CustomerLayout>} 
+        />
       </Route>
       
       <Route element={<ProtectedRoute role="launderer" />}>
-        <Route path="/launderer/dashboard" element={<LaundererDashboard />} />
-        <Route path="/launderer/orders" element={<LaundererOrders />} />
-        <Route path="/launderer/orders/:orderId" element={<OrderDetails />} />
-        <Route path="/launderer/settings" element={<LaundererSettings />} />
-        <Route path="/launderer/new-order" element={<NewOrder />} />
-        <Route path="/launderer/revenue" element={<Revenue />} />
-        <Route path="/launderer/dispute" element={<Dispute />} />
+        <Route path="/launderer/dashboard" element={<LaundererLayout><LaundererDashboard /></LaundererLayout>} />
+        <Route path="/launderer/orders" element={<LaundererLayout><LaundererOrders /></LaundererLayout>} />
+        <Route path="/launderer/orders/:orderId" element={<LaundererLayout><OrderDetails /></LaundererLayout>} />
+        <Route path="/launderer/settings" element={<LaundererLayout><LaundererSettings /></LaundererLayout>} />
+        <Route path="/launderer/new-order" element={<LaundererLayout><NewOrder /></LaundererLayout>} />
+        <Route path="/launderer/revenue" element={<LaundererLayout><Revenue /></LaundererLayout>} />
+        <Route path="/launderer/dispute" element={<LaundererLayout><Dispute /></LaundererLayout>} />
       </Route>
       
       <Route path="*" element={<NotFound />} />
@@ -81,7 +87,7 @@ const AppRoutes = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light">
       <TooltipProvider>
         <Toaster />
         <Sonner />

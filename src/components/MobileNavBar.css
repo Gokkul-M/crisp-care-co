@@ -1,0 +1,17 @@
+.mobile-nav-enter {
+    transform: translateY(100%);
+  }
+  
+  .mobile-nav-enter-active {
+    transform: translateY(0);
+    transition: transform 300ms ease-out;
+  }
+  
+  .nav-item-pop {
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .nav-item-pop:hover {
+    transform: scale(1.1);
+  }
+  

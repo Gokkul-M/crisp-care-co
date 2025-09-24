@@ -64,7 +64,7 @@ const Auth = () => {
     setTimeout(() => {
       if (otp === "123456") {
         toast.success("Verification successful!")
-        navigate('/profile-setup');
+        navigate('/role-selection');
       } else {
         toast.error("Invalid OTP. Please try again.");
       }
@@ -74,7 +74,7 @@ const Auth = () => {
   
   const handleGoogleLogin = () => {
     setTimeout(() => {
-      navigate('/profile-setup');
+      navigate('/role-selection');
     }, 1000);
   };
 

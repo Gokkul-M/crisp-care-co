@@ -14,7 +14,7 @@ const PinCodeValidator = ({ onServiceableChange }: PinCodeValidatorProps) => {
   const handleCheckAvailability = () => {
     setIsChecking(true);
     setTimeout(() => {
-      const serviceablePinCodes = ["110011", "122001", "122002", "122018"];
+      const serviceablePinCodes = ["110011", "122001", "122002", "122018", "602105"];
       const isAvailable = serviceablePinCodes.includes(pinCode);
       
       onServiceableChange(isAvailable);

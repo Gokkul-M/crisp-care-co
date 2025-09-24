@@ -141,7 +141,7 @@ const CustomerDashboard = () => {
         </div>
       )}
 
-      <div className="absolute bottom-24 left-0 right-0 z-10 px-4">
+      <div className="absolute bottom-28 left-0 right-0 z-10 px-4">
         <Collapsible open={!isActionCardMinimized} onOpenChange={(open) => setIsActionCardMinimized(!open)}>
           <Card className="bg-background/95 backdrop-blur-lg border-border/50 shadow-xl animate-slide-up">
             {isActionCardMinimized && (

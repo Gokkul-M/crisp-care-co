@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
+import { ArrowLeft, AlertTriangle, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import PinCodeValidator from "@/components/PinCodeValidator";
 
@@ -13,9 +13,20 @@ const ProfileSetup = () => {
     setIsServiceable(isAvailable);
   };
 
-  const handleNext = () => {
-    navigate("/customer/edit-profile");
-  };
+  useEffect(() => {
+    if (isServiceable === true) {
+      const role = localStorage.getItem('userRole');
+      const timer = setTimeout(() => {
+        if (role === 'launderer') {
+          navigate("/launderer/settings");
+        } else {
+          navigate("/customer/edit-profile");
+        }
+      }, 2000); // 2-second delay
+
+      return () => clearTimeout(timer);
+    }
+  }, [isServiceable, navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -42,10 +53,7 @@ const ProfileSetup = () => {
                  <div className="text-center p-4 mt-4 rounded-lg bg-green-500/10 text-green-600 animate-fade-in">
                     <CheckCircle className="h-8 w-8 mx-auto mb-2" />
                     <p className="font-medium">Great! Your area is serviceable.</p>
-                    <p className="text-sm">Click next to setup your profile.</p>
-                    <Button onClick={handleNext} className="mt-4">
-                        Next <ArrowRight className="h-4 w-4 ml-2" />
-                    </Button>
+                    <p className="text-sm">Redirecting you to setup your profile...</p>
                 </div>
             )}
             
