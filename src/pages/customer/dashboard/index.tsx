@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -14,11 +14,22 @@ import {
   LogOut
 } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const CustomerDashboard = () => {
   const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.showWelcomeToast) {
+      toast.success("Great! Your area is serviceable.");
+      // Clean up the state to avoid showing the toast on subsequent visits
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
+
 
   const handleLogout = () => {
     // Replace with actual logout logic

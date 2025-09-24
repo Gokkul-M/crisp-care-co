@@ -12,22 +12,20 @@ import {
   LogOut,
   Edit,
   Camera,
-  Settings,
   CreditCard,
   FileText,
-  Home,
-  ShoppingBag
+  Moon
 } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const CustomerSettings = () => {
   const [editMode, setEditMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [smsUpdates, setSmsUpdates] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [profileData, setProfileData] = useState({
     name: "Sarah Johnson",
@@ -54,22 +52,15 @@ const CustomerSettings = () => {
   const menuItems = [
     { icon: MapPin, label: "My Addresses", route: "/customer/addresses" },
     { icon: CreditCard, label: "Payment Methods", route: "/customer/payments" },
-    { icon: Bell, label: "Notification Settings", route: "/customer/notifications" },
     { icon: FileText, label: "Terms & Conditions", route: "/terms" },
     { icon: Shield, label: "Privacy & Security", route: "/privacy" },
   ];
 
-  const navItems = [
-    { icon: Home, label: "Home", route: "/customer/dashboard" },
-    { icon: ShoppingBag, label: "Orders", route: "/customer/orders" },
-    { icon: User, label: "Profile", route: "/customer/settings" },
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen bg-background text-foreground pb-24">
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Settings</h1>
+          <h1 className="text-2xl font-bold">Settings</h1>
           <Button 
             variant={editMode ? "default" : "outline"} 
             size="sm"
@@ -80,70 +71,82 @@ const CustomerSettings = () => {
           </Button>
         </div>
 
-        <Card className="mb-6 p-4 border border-gray-200/80 shadow-sm">
+        <Card className="mb-6 p-4 shadow-sm">
           <div className="flex items-center space-x-4 mb-5">
             <div className="relative">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center border">
-                <User className="h-8 w-8 text-gray-500" />
+              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center border">
+                <User className="h-8 w-8 text-muted-foreground" />
               </div>
               {editMode && (
-                <Button size="icon" variant="outline" className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white">
+                <Button size="icon" variant="outline" className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-background">
                   <Camera className="h-4 w-4" />
                 </Button>
               )}
             </div>
             <div className="flex-1">
-              <h2 className="text-lg font-semibold text-gray-900">{profileData.name}</h2>
-              <p className="text-sm text-gray-500">{profileData.email}</p>
+              <h2 className="text-lg font-semibold">{profileData.name}</h2>
+              <p className="text-sm text-muted-foreground">{profileData.email}</p>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Full Name</Label>
+              <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
               <Input id="name" value={profileData.name} onChange={handleInputChange} disabled={!editMode} />
             </div>
             <div>
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
               <Input id="email" type="email" value={profileData.email} onChange={handleInputChange} disabled={!editMode} />
             </div>
             <div>
-              <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Phone Number</Label>
+              <Label htmlFor="phone" className="text-sm font-medium">Phone Number</Label>
               <Input id="phone" value={profileData.phone} onChange={handleInputChange} disabled={!editMode} />
             </div>
             <div>
-              <Label htmlFor="address" className="text-sm font-medium text-gray-700">Default Address</Label>
+              <Label htmlFor="address" className="text-sm font-medium">Default Address</Label>
               <Input id="address" value={profileData.address} onChange={handleInputChange} disabled={!editMode} />
             </div>
           </div>
         </Card>
 
-        <Card className="mb-6 p-4 border border-gray-200/80 shadow-sm">
-          <h3 className="font-semibold mb-4 text-gray-800">Preferences</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
+        <Card className="mb-6 p-4 shadow-sm">
+          <h3 className="font-semibold mb-2">Appearance</h3>
+          <div className="flex items-center justify-between py-2">
+            <div className="flex items-center space-x-3">
+              <Moon className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <p className="font-medium text-sm">Dark Mode</p>
+                <p className="text-xs text-muted-foreground">Toggle between light and dark theme</p>
+              </div>
+            </div>
+            <ThemeToggle />
+          </div>
+        </Card>
+
+        <Card className="mb-6 p-4 shadow-sm">
+          <h3 className="font-semibold mb-2">Preferences</h3>
+           <div className="flex items-center justify-between py-2">
               <div>
                 <p className="font-medium text-sm">Push Notifications</p>
-                <p className="text-xs text-gray-500">For order updates & offers</p>
+                <p className="text-xs text-muted-foreground">For order updates & offers</p>
               </div>
               <Switch checked={notifications} onCheckedChange={setNotifications} />
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between py-2">
                <div>
                 <p className="font-medium text-sm">SMS Notifications</p>
-                <p className="text-xs text-gray-500">For critical updates</p>
+                <p className="text-xs text-muted-foreground">For critical updates</p>
               </div>
               <Switch checked={smsUpdates} onCheckedChange={setSmsUpdates} />
             </div>
-          </div>
         </Card>
 
         <div className="space-y-2 mb-6">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
-              <Button key={item.label} variant="ghost" className="w-full justify-start p-4 h-14 text-sm text-gray-700" onClick={() => navigate(item.route)}>
-                <Icon className="h-5 w-5 mr-4 text-gray-500" />
+              <Button key={item.label} variant="ghost" className="w-full justify-start p-4 h-14 text-sm" onClick={() => navigate(item.route)}>
+                <Icon className="h-5 w-5 mr-4 text-muted-foreground" />
                 <span>{item.label}</span>
               </Button>
             );
@@ -152,7 +155,7 @@ const CustomerSettings = () => {
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" className="w-full text-red-600 hover:text-red-700 border-red-200 hover:bg-red-50">
+            <Button variant="outline" className="w-full text-destructive-foreground border-destructive/50 hover:bg-destructive/10">
               <LogOut className="h-4 w-4 mr-2" />
               Logout
             </Button>

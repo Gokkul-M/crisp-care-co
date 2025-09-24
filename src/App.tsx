@@ -6,11 +6,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Auth from "./pages/Auth";
 import RoleSelection from "./pages/RoleSelection";
+import ProfileSetup from "./pages/ProfileSetup";
+import NotServiceable from "./pages/NotServiceable";
 import CustomerDashboard from "./pages/customer/Dashboard";
 import BookService from "./pages/customer/BookService";
 import CustomerOrders from "./pages/customer/Orders";
 import CustomerSettings from "./pages/customer/Settings";
 import CustomerOffers from "./pages/customer/Offers";
+import EditProfile from "./pages/customer/EditProfile";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
 import LaundererSettings from "./pages/launderer/Settings";
@@ -30,7 +33,9 @@ const AppRoutes = () => {
       <Route path="/" element={<Welcome />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/role-selection" element={<RoleSelection />} />
-      
+      <Route path="/profile-setup" element={<ProfileSetup />} />
+      <Route path="/not-serviceable" element={<NotServiceable />} />
+
       <Route element={<ProtectedRoute role="customer" />}>
         <Route 
           path="/customer/dashboard" 
@@ -51,6 +56,10 @@ const AppRoutes = () => {
         <Route 
           path="/customer/offers" 
           element={<CustomerLayout><CustomerOffers /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/edit-profile" 
+          element={<CustomerLayout><EditProfile /></CustomerLayout>} 
         />
       </Route>
       
