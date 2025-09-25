@@ -13,20 +13,17 @@ import {
   ChevronUp,
   ChevronDown,
   LogOut,
-  Home,
   User,
   BarChart2,
-  Settings,
   ShieldAlert
 } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LaundererDashboard = () => {
   const [isActionCardMinimized, setIsActionCardMinimized] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = () => {
     console.log("Logging out...");
@@ -42,12 +39,6 @@ const LaundererDashboard = () => {
     { icon: Package, label: "All Orders", color: "bg-orange-500", route: "/launderer/orders" },
     { icon: BarChart2, label: "Revenue", color: "bg-green-500", route: "/launderer/revenue" },
     { icon: ShieldAlert, label: "Dispute/Claim", color: "bg-red-500", route: "/launderer/dispute" },
-  ];
-
-  const navItems = [
-    { icon: Home, label: "Home", route: "/launderer/dashboard" },
-    { icon: Package, label: "Orders", route: "/launderer/orders" },
-    { icon: Settings, label: "Settings", route: "/launderer/settings" },
   ];
 
   return (
@@ -162,28 +153,6 @@ const LaundererDashboard = () => {
             </CollapsibleContent>
           </Card>
         </Collapsible>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t z-20">
-        <div className="flex justify-around items-center h-16">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.route;
-            return (
-              <Button
-                key={item.label}
-                variant="ghost"
-                className={`flex flex-col items-center justify-center h-full w-full rounded-lg transition-colors ${
-                  isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground'
-                }`}
-                onClick={() => navigate(item.route)}
-              >
-                <Icon className={`h-5 w-5 mb-1 transition-transform ${isActive ? 'scale-110' : ''}`} />
-                <span className="text-[11px] font-medium">{item.label}</span>
-              </Button>
-            );
-          })}
-        </div>
       </div>
     </div>
   );

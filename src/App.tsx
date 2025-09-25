@@ -25,7 +25,9 @@ import Dispute from "./pages/launderer/Dispute";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import CustomerLayout from "@/components/CustomerLayout";
-import Settings from "@/pages/Settings";
+import LaundererLayout from "@/pages/launderer/LaundererLayout";
+import CustomerSettings from "@/pages/Settings";
+import LaundererSettingsPage from "@/pages/launderer/Settings";
 import OrderConfirmation from "./pages/customer/OrderConfirmation";
 import Payment from "./pages/customer/Payment";
 import NotificationSettingsPage from "./pages/customer/NotificationSettingsPage";
@@ -69,7 +71,7 @@ const AppRoutes = () => {
         />
         <Route 
           path="/customer/settings" 
-          element={<CustomerLayout><Settings /></CustomerLayout>} 
+          element={<CustomerLayout><CustomerSettings /></CustomerLayout>} 
         />
         <Route 
           path="/customer/notification-settings" 
@@ -94,13 +96,13 @@ const AppRoutes = () => {
       </Route>
       
       <Route element={<ProtectedRoute role="launderer" />}>
-        <Route path="/launderer/dashboard" element={<CustomerLayout><LaundererDashboard /></CustomerLayout>} />
-        <Route path="/launderer/orders" element={<CustomerLayout><LaundererOrders /></CustomerLayout>} />
-        <Route path="/launderer/orders/:orderId" element={<CustomerLayout><OrderDetails /></CustomerLayout>} />
-        <Route path="/launderer/settings" element={<CustomerLayout><Settings /></CustomerLayout>} />
-        <Route path="/launderer/new-order" element={<CustomerLayout><NewOrder /></CustomerLayout>} />
-        <Route path="/launderer/revenue" element={<CustomerLayout><Revenue /></CustomerLayout>} />
-        <Route path="/launderer/dispute" element={<CustomerLayout><Dispute /></CustomerLayout>} />
+        <Route path="/launderer/dashboard" element={<LaundererLayout><LaundererDashboard /></LaundererLayout>} />
+        <Route path="/launderer/orders" element={<LaundererLayout><LaundererOrders /></LaundererLayout>} />
+        <Route path="/launderer/orders/:orderId" element={<LaundererLayout><OrderDetails /></LaundererLayout>} />
+        <Route path="/launderer/settings" element={<LaundererLayout><LaundererSettingsPage /></LaundererLayout>} />
+        <Route path="/launderer/new-order" element={<LaundererLayout><NewOrder /></LaundererLayout>} />
+        <Route path="/launderer/revenue" element={<LaundererLayout><Revenue /></LaundererLayout>} />
+        <Route path="/launderer/dispute" element={<LaundererLayout><Dispute /></LaundererLayout>} />
       </Route>
       
       <Route path="*" element={<NotFound />} />
