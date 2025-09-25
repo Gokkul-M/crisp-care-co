@@ -11,7 +11,7 @@ const CustomerSettings = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 pb-28">
       <h1 className="text-2xl font-bold mb-4">Settings</h1>
       <Card className="p-4">
         <Button variant="destructive" onClick={handleSignOut}>

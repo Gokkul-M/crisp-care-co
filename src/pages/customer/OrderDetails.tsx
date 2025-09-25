@@ -40,119 +40,117 @@ const OrderDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-subtle pb-20">
-      <div className="mobile-container">
-        <header className="py-6 flex items-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="mr-4"
-            onClick={() => window.history.back()}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Order Details</h1>
-            <p className="text-sm text-muted-foreground">Order ID: {order.id}</p>
+    <div className="container mx-auto px-4 py-6 pb-28">
+      <header className="py-6 flex items-center">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="mr-4"
+          onClick={() => window.history.back()}
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Order Details</h1>
+          <p className="text-sm text-muted-foreground">Order ID: {order.id}</p>
+        </div>
+      </header>
+
+      <main className="space-y-6">
+        {/* Status Section */}
+        <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
+          <div className="flex items-center mb-4">
+            <img
+              src={order.launderer.img}
+              alt={order.launderer.name}
+              className="w-12 h-12 rounded-full mr-4 border-2 border-primary/50"
+            />
+            <div className="flex-grow">
+              <p className="font-bold text-foreground">
+                {order.launderer.name}
+              </p>
+              <Badge variant="secondary">{order.status}</Badge>
+            </div>
           </div>
-        </header>
-
-        <main className="space-y-6">
-          {/* Status Section */}
-          <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
-            <div className="flex items-center mb-4">
-              <img
-                src={order.launderer.img}
-                alt={order.launderer.name}
-                className="w-12 h-12 rounded-full mr-4 border-2 border-primary/50"
-              />
-              <div className="flex-grow">
-                <p className="font-bold text-foreground">
-                  {order.launderer.name}
-                </p>
-                <Badge variant="secondary">{order.status}</Badge>
-              </div>
+          <div>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs font-semibold text-primary">
+                {order.status}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {order.progress}%
+              </span>
             </div>
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-semibold text-primary">
-                  {order.status}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {order.progress}%
-                </span>
-              </div>
-              <Progress value={order.progress} className="h-2" />
-            </div>
-          </section>
+            <Progress value={order.progress} className="h-2" />
+          </div>
+        </section>
 
-          {/* Timeline Section */}
-          <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
-            <h2 className="font-semibold mb-4">Order Timeline</h2>
-            <div className="space-y-4">
-              {order.timeline.map((event, index) => (
-                <div key={index} className="flex">
-                  <div className="flex flex-col items-center mr-4">
-                    <div
-                      className={`w-4 h-4 rounded-full ${
-                        event.completed ? "bg-primary" : "bg-muted"
-                      }`}
-                    >
-                      {event.completed && (
-                        <CheckCircle className="w-4 h-4 text-primary-foreground" />
-                      )}
-                    </div>
-                    {index < order.timeline.length - 1 && (
-                      <div className="w-px h-8 bg-muted"></div>
+        {/* Timeline Section */}
+        <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
+          <h2 className="font-semibold mb-4">Order Timeline</h2>
+          <div className="space-y-4">
+            {order.timeline.map((event, index) => (
+              <div key={index} className="flex">
+                <div className="flex flex-col items-center mr-4">
+                  <div
+                    className={`w-4 h-4 rounded-full ${
+                      event.completed ? "bg-primary" : "bg-muted"
+                    }`}
+                  >
+                    {event.completed && (
+                      <CheckCircle className="w-4 h-4 text-primary-foreground" />
                     )}
                   </div>
-                  <div>
-                    <p className="font-medium text-sm">{event.status}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {event.date}
-                    </p>
-                  </div>
+                  {index < order.timeline.length - 1 && (
+                    <div className="w-px h-8 bg-muted"></div>
+                  )}
                 </div>
-              ))}
-            </div>
-          </section>
+                <div>
+                  <p className="font-medium text-sm">{event.status}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {event.date}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-          {/* Order Summary */}
-          <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
-            <h2 className="font-semibold mb-4">Order Summary</h2>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Service</span>
-                <span className="font-medium">{order.service}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Items</span>
-                <span className="font-medium">{order.items} pieces</span>
-              </div>
-              <Separator className="my-2" />
-              <div className="flex justify-between text-base">
-                <span className="font-semibold">Total Amount</span>
-                <span className="font-bold text-primary">{order.amount}</span>
-              </div>
+        {/* Order Summary */}
+        <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
+          <h2 className="font-semibold mb-4">Order Summary</h2>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Service</span>
+              <span className="font-medium">{order.service}</span>
             </div>
-          </section>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Items</span>
+              <span className="font-medium">{order.items} pieces</span>
+            </div>
+            <Separator className="my-2" />
+            <div className="flex justify-between text-base">
+              <span className="font-semibold">Total Amount</span>
+              <span className="font-bold text-primary">{order.amount}</span>
+            </div>
+          </div>
+        </section>
 
-          {/* Support */}
-          <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
-            <h2 className="font-semibold mb-4">Need Help?</h2>
-            <div className="flex gap-4">
-              <Button variant="outline" className="w-full">
-                <HelpCircle className="w-4 h-4 mr-2" />
-                FAQs
-              </Button>
-              <Button variant="secondary" className="w-full">
-                <Phone className="w-4 h-4 mr-2" />
-                Contact Support
-              </Button>
-            </div>
-          </section>
-        </main>
-      </div>
+        {/* Support */}
+        <section className="bg-card/80 backdrop-blur-md rounded-2xl p-4 border border-border/30">
+          <h2 className="font-semibold mb-4">Need Help?</h2>
+          <div className="flex gap-4">
+            <Button variant="outline" className="w-full">
+              <HelpCircle className="w-4 h-4 mr-2" />
+              FAQs
+            </Button>
+            <Button variant="secondary" className="w-full">
+              <Phone className="w-4 h-4 mr-2" />
+              Contact Support
+            </Button>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

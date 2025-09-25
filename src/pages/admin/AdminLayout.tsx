@@ -1,15 +1,13 @@
 import { Outlet } from "react-router-dom";
-import CustomerNavBar from "./MobileNavBar";
 
-const CustomerLayout = () => {
+const AdminLayout = () => {
   return (
     <div className="min-h-screen bg-background">
       <main>
         <Outlet />
       </main>
-      <CustomerNavBar />
     </div>
   );
 };
 
-export default CustomerLayout;
+export default AdminLayout;

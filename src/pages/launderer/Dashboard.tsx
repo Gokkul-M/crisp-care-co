@@ -48,7 +48,7 @@ const LaundererDashboard = () => {
           center={laundererLocation}
           customerLocation={newOrders.length > 0 ? newOrders[0].location : undefined}
           showUserLocation={true}
-          height="100vh"
+          height="2000vh"
         />
       </div>
 

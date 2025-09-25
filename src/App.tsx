@@ -32,6 +32,17 @@ import OrderConfirmation from "./pages/customer/OrderConfirmation";
 import Payment from "./pages/customer/Payment";
 import NotificationSettingsPage from "./pages/customer/NotificationSettingsPage";
 import LanguageSettingsPage from "./pages/customer/LanguageSettingsPage";
+import AdminLayout from "./pages/admin/AdminLayout";
+import CustomersPage from "./pages/admin/Customers";
+import LaunderersPage from "./pages/admin/Launderers";
+import PricingPage from "./pages/admin/Pricing";
+import AnalyticsPage from "./pages/admin/Analytics";
+import CartPage from "./pages/customer/Cart";
+import SchedulerPage from "./pages/customer/Scheduler";
+import LiveTrackingPage from "./pages/customer/LiveTracking";
+import OrderHistoryPage from "./pages/customer/OrderHistory";
+import InventoryPage from "./pages/launderer/Inventory";
+import DisputesPage from "./pages/launderer/Disputes";
 
 const queryClient = new QueryClient();
 
@@ -45,64 +56,47 @@ const AppRoutes = () => {
       <Route path="/not-serviceable" element={<NotServiceable />} />
 
       <Route element={<ProtectedRoute role="customer" />}>
-        <Route 
-          path="/customer/dashboard" 
-          element={<CustomerLayout><CustomerDashboard /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/book" 
-          element={<CustomerLayout><BookService /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/order-confirmation" 
-          element={<CustomerLayout><OrderConfirmation /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/payment" 
-          element={<CustomerLayout><Payment /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/orders" 
-          element={<CustomerLayout><CustomerOrders /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/order/:orderId" 
-          element={<CustomerLayout><CustomerOrderDetails /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/settings" 
-          element={<CustomerLayout><CustomerSettings /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/notification-settings" 
-          element={<CustomerLayout><NotificationSettingsPage /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/language-settings" 
-          element={<CustomerLayout><LanguageSettingsPage /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/offers" 
-          element={<CustomerLayout><CustomerOffers /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/edit-profile" 
-          element={<CustomerLayout><EditProfile /></CustomerLayout>} 
-        />
-        <Route 
-          path="/customer/search" 
-          element={<CustomerLayout><Search /></CustomerLayout>} 
-        />
+        <Route element={<CustomerLayout />}>
+          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+          <Route path="/customer/book" element={<BookService />} />
+          <Route path="/customer/order-confirmation" element={<OrderConfirmation />} />
+          <Route path="/customer/payment" element={<Payment />} />
+          <Route path="/customer/orders" element={<CustomerOrders />} />
+          <Route path="/customer/order/:orderId" element={<CustomerOrderDetails />} />
+          <Route path="/customer/settings" element={<CustomerSettings />} />
+          <Route path="/customer/notification-settings" element={<NotificationSettingsPage />} />
+          <Route path="/customer/language-settings" element={<LanguageSettingsPage />} />
+          <Route path="/customer/offers" element={<CustomerOffers />} />
+          <Route path="/customer/edit-profile" element={<EditProfile />} />
+          <Route path="/customer/search" element={<Search />} />
+          <Route path="/customer/cart" element={<CartPage />} />
+          <Route path="/customer/scheduler" element={<SchedulerPage />} />
+          <Route path="/customer/tracking" element={<LiveTrackingPage />} />
+          <Route path="/customer/order-history" element={<OrderHistoryPage />} />
+        </Route>
       </Route>
       
       <Route element={<ProtectedRoute role="launderer" />}>
-        <Route path="/launderer/dashboard" element={<LaundererLayout><LaundererDashboard /></LaundererLayout>} />
-        <Route path="/launderer/orders" element={<LaundererLayout><LaundererOrders /></LaundererLayout>} />
-        <Route path="/launderer/orders/:orderId" element={<LaundererLayout><OrderDetails /></LaundererLayout>} />
-        <Route path="/launderer/settings" element={<LaundererLayout><LaundererSettingsPage /></LaundererLayout>} />
-        <Route path="/launderer/new-order" element={<LaundererLayout><NewOrder /></LaundererLayout>} />
-        <Route path="/launderer/revenue" element={<LaundererLayout><Revenue /></LaundererLayout>} />
-        <Route path="/launderer/dispute" element={<LaundererLayout><Dispute /></LaundererLayout>} />
+        <Route element={<LaundererLayout />}>
+          <Route path="/launderer/dashboard" element={<LaundererDashboard />} />
+          <Route path="/launderer/orders" element={<LaundererOrders />} />
+          <Route path="/launderer/orders/:orderId" element={<OrderDetails />} />
+          <Route path="/launderer/settings" element={<LaundererSettingsPage />} />
+          <Route path="/launderer/new-order" element={<NewOrder />} />
+          <Route path="/launderer/revenue" element={<Revenue />} />
+          <Route path="/launderer/dispute" element={<Dispute />} />
+          <Route path="/launderer/inventory" element={<InventoryPage />} />
+          <Route path="/launderer/disputes" element={<DisputesPage />} />
+        </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute role="admin" />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/customers" element={<CustomersPage />} />
+          <Route path="/admin/launderers" element={<LaunderersPage />} />
+          <Route path="/admin/pricing" element={<PricingPage />} />
+          <Route path="/admin/analytics" element={<AnalyticsPage />} />
+        </Route>
       </Route>
       
       <Route path="*" element={<NotFound />} />

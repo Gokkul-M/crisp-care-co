@@ -1,4 +1,4 @@
-import { Home, List, PieChart, User, ScanLine } from "lucide-react";
+import { Home, Search, History, User, ScanLine } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const NavItem = ({ to, icon: Icon, label }: { to: string, icon: React.ElementType, label: string }) => {
@@ -29,8 +29,8 @@ const NavItem = ({ to, icon: Icon, label }: { to: string, icon: React.ElementTyp
 const LaundererNavBar = () => {
   const regularItems = [
     { to: "/launderer/dashboard", icon: Home, label: "Home" },
-    { to: "/launderer/orders", icon: List, label: "Orders" },
-    { to: "/launderer/revenue", icon: PieChart, label: "Revenue" },
+    { to: "/launderer/orders", icon: Search, label: "Search" },
+    { to: "/launderer/revenue", icon: History, label: "History" },
     { to: "/launderer/settings", icon: User, label: "Profile" },
   ];
   const centralItem = { to: "/launderer/new-order", icon: ScanLine, label: "Scan" };

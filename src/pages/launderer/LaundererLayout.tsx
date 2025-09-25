@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import LaundererNavBar from "@/components/LaundererNavBar";
+import { Outlet } from "react-router-dom";
 
 const LaundererLayout = () => {
   return (
