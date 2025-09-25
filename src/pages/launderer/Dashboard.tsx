@@ -35,13 +35,7 @@ const LaundererDashboard = () => {
 
   const laundererLocation = { lat: 40.7128, lng: -74.0060 };
 
-  const newOrders = [
-    {
-      id: "1",
-      customer: "John Doe",
-      distance: "1.2km away"
-    },
-  ];
+  const newOrders = [];
 
   const quickActions = [
     { icon: Plus, label: "New Order", color: "bg-blue-500", route: "/launderer/new-order" },
@@ -58,9 +52,10 @@ const LaundererDashboard = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden pb-20">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <MapComponent
           center={laundererLocation}
+          customerLocation={newOrders.length > 0 ? newOrders[0].location : undefined}
           showUserLocation={true}
           height="100vh"
         />

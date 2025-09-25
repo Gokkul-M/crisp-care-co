@@ -242,7 +242,10 @@ const BookService = () => {
 
         {/* Book Now Button */}
         {totalAmount > 0 && (
-          <Button className="service-button animate-slide-up">
+          <Button 
+            className="service-button animate-slide-up"
+            onClick={() => navigate("/customer/order-confirmation")}
+          >
             Book Now - ${totalAmount}
           </Button>
         )}

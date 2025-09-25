@@ -90,12 +90,12 @@ const CustomerDashboard = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <MapComponent
           center={userLocation}
           laundrers={nearbyLaundrers}
           showUserLocation={true}
-          height="100vh"
+          height="2000vh"
         />
       </div>
 

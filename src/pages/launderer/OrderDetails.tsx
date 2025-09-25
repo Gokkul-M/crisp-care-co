@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeft, MapPin, Phone, MessageSquare } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import MapComponent from "@/components/GoogleMap";
+import Timeline from "@/components/Timeline";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const OrderDetails = () => {
     items: 4,
     amount: "$35",
     pickup: "789 Pine St, Anytown, USA",
-    status: "In Process",
+    status: "in-progress",
     location: { lat: 40.7128, lng: -74.0060 }, // Mockup location
     history: [
       { status: "Order Accepted", time: "10:30 AM" },
@@ -43,7 +45,10 @@ const OrderDetails = () => {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="font-semibold">{order.customer}</h2>
-                <p className="text-sm text-muted-foreground">{order.pickup}</p>
+                <p className="text-sm text-muted-foreground flex items-center">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  {order.pickup}
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Button variant="outline" size="icon">
@@ -77,20 +82,20 @@ const OrderDetails = () => {
 
         <Card className="p-4 mb-4">
           <h3 className="font-semibold mb-4">Order History</h3>
-          <div>
-            {order.history.map((entry, index) => (
-              <div key={index} className="flex items-start mb-4">
-                <div className="w-4 h-4 rounded-full bg-primary mt-1"></div>
-                <div className="ml-4">
-                  <p className="font-medium text-sm">{entry.status}</p>
-                  <p className="text-xs text-muted-foreground">{entry.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Timeline history={order.history} />
         </Card>
 
         <div className="space-y-2">
+          <Select defaultValue={order.status}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Update Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="in-progress">In Progress</SelectItem>
+              <SelectItem value="out-for-delivery">Out for Delivery</SelectItem>
+              <SelectItem value="completed">Completed</SelectItem>
+            </SelectContent>
+          </Select>
           <Button className="w-full">Update Status</Button>
           <Button variant="outline" className="w-full">Navigate to Address</Button>
         </div>

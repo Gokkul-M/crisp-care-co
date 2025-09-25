@@ -2,31 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Laundry Service App Design System - Base & Dark Themes */
-
 @layer base {
   :root {
-    /* Base colors - White + Lavender theme */
-    --background: 0 0% 100%;
+    --background: 240 20% 98%;
     --foreground: 240 10% 15%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 15%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
-    --primary: 262 83% 58%;
+    --primary: 250 80% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 262 100% 85%;
+    --primary-glow: 250 80% 85%;
     --secondary: 262 50% 95%;
-    --secondary-foreground: 262 83% 58%;
+    --secondary-foreground: 250 80% 60%;
     --muted: 240 5% 96%;
     --muted-foreground: 240 4% 46%;
     --accent: 262 30% 92%;
-    --accent-foreground: 262 83% 58%;
+    --accent-foreground: 250 80% 60%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 240 6% 90%;
     --input: 240 6% 90%;
-    --ring: 262 83% 58%;
+    --ring: 250 80% 60%;
     --radius: 1rem;
     --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.1);
     --shadow-medium: 0 8px 30px -8px hsl(var(--primary) / 0.15);
@@ -42,7 +39,6 @@
   }
 
   .dark {
-    /* Deep Space Aurora Theme */
     --background: 240 10% 4%;
     --foreground: 210 20% 95%;
     --card: 240 5% 15% / 0.5;
@@ -96,7 +92,6 @@
 }
 
 @layer utilities {
-  /* Shadow utilities */
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
@@ -120,15 +115,6 @@
   .dark .service-card {
     @apply bg-card/70 border-border/60;
     backdrop-filter: blur(12px);
-  }
-  
-  .mobile-nav {
-    @apply fixed bottom-4 inset-x-4 bg-background/90 backdrop-blur-md rounded-3xl shadow-soft px-2 py-2;
-  }
-
-  .dark .mobile-nav {
-      @apply bg-card/50;
-      backdrop-filter: blur(20px);
   }
 }
 

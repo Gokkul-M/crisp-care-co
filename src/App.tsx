@@ -12,13 +12,12 @@ import NotServiceable from "./pages/NotServiceable";
 import CustomerDashboard from "./pages/customer/Dashboard";
 import BookService from "./pages/customer/BookService";
 import CustomerOrders from "./pages/customer/Orders";
-import CustomerSettings from "./pages/customer/Settings";
+import CustomerOrderDetails from "./pages/customer/OrderDetails";
 import CustomerOffers from "./pages/customer/Offers";
 import EditProfile from "./pages/customer/EditProfile";
 import Search from "./pages/customer/Search";
 import LaundererDashboard from "./pages/launderer/Dashboard";
 import LaundererOrders from "./pages/launderer/Orders";
-import LaundererSettings from "./pages/launderer/Settings";
 import OrderDetails from "./pages/launderer/OrderDetails";
 import NewOrder from "./pages/launderer/NewOrder";
 import Revenue from "./pages/launderer/Revenue";
@@ -26,7 +25,11 @@ import Dispute from "./pages/launderer/Dispute";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import CustomerLayout from "@/components/CustomerLayout";
-import LaundererLayout from "@/components/LaundererLayout";
+import Settings from "@/pages/Settings";
+import OrderConfirmation from "./pages/customer/OrderConfirmation";
+import Payment from "./pages/customer/Payment";
+import NotificationSettingsPage from "./pages/customer/NotificationSettingsPage";
+import LanguageSettingsPage from "./pages/customer/LanguageSettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -49,12 +52,32 @@ const AppRoutes = () => {
           element={<CustomerLayout><BookService /></CustomerLayout>} 
         />
         <Route 
+          path="/customer/order-confirmation" 
+          element={<CustomerLayout><OrderConfirmation /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/payment" 
+          element={<CustomerLayout><Payment /></CustomerLayout>} 
+        />
+        <Route 
           path="/customer/orders" 
           element={<CustomerLayout><CustomerOrders /></CustomerLayout>} 
         />
         <Route 
+          path="/customer/order/:orderId" 
+          element={<CustomerLayout><CustomerOrderDetails /></CustomerLayout>} 
+        />
+        <Route 
           path="/customer/settings" 
-          element={<CustomerLayout><CustomerSettings /></CustomerLayout>} 
+          element={<CustomerLayout><Settings /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/notification-settings" 
+          element={<CustomerLayout><NotificationSettingsPage /></CustomerLayout>} 
+        />
+        <Route 
+          path="/customer/language-settings" 
+          element={<CustomerLayout><LanguageSettingsPage /></CustomerLayout>} 
         />
         <Route 
           path="/customer/offers" 
@@ -71,13 +94,13 @@ const AppRoutes = () => {
       </Route>
       
       <Route element={<ProtectedRoute role="launderer" />}>
-        <Route path="/launderer/dashboard" element={<LaundererLayout><LaundererDashboard /></LaundererLayout>} />
-        <Route path="/launderer/orders" element={<LaundererLayout><LaundererOrders /></LaundererLayout>} />
-        <Route path="/launderer/orders/:orderId" element={<LaundererLayout><OrderDetails /></LaundererLayout>} />
-        <Route path="/launderer/settings" element={<LaundererLayout><LaundererSettings /></LaundererLayout>} />
-        <Route path="/launderer/new-order" element={<LaundererLayout><NewOrder /></LaundererLayout>} />
-        <Route path="/launderer/revenue" element={<LaundererLayout><Revenue /></LaundererLayout>} />
-        <Route path="/launderer/dispute" element={<LaundererLayout><Dispute /></LaundererLayout>} />
+        <Route path="/launderer/dashboard" element={<CustomerLayout><LaundererDashboard /></CustomerLayout>} />
+        <Route path="/launderer/orders" element={<CustomerLayout><LaundererOrders /></CustomerLayout>} />
+        <Route path="/launderer/orders/:orderId" element={<CustomerLayout><OrderDetails /></CustomerLayout>} />
+        <Route path="/launderer/settings" element={<CustomerLayout><Settings /></CustomerLayout>} />
+        <Route path="/launderer/new-order" element={<CustomerLayout><NewOrder /></CustomerLayout>} />
+        <Route path="/launderer/revenue" element={<CustomerLayout><Revenue /></CustomerLayout>} />
+        <Route path="/launderer/dispute" element={<CustomerLayout><Dispute /></CustomerLayout>} />
       </Route>
       
       <Route path="*" element={<NotFound />} />
@@ -87,7 +110,7 @@ const AppRoutes = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="light">
+    <ThemeProvider defaultTheme="dark">
       <TooltipProvider>
         <Toaster />
         <Sonner />
