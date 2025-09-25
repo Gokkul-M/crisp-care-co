@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import LaundererNavBar from "@/components/launderer/LaundererNavBar";
+import LaundererNavBar from "@/components/LaundererNavBar";
 
 const LaundererLayout = () => {
   return (
     <div className="min-h-screen bg-background">
-      <main className="pb-20">
+      <main className="pb-28">
         <Outlet />
       </main>
       <LaundererNavBar />
