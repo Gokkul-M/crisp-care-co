@@ -81,9 +81,9 @@ const CustomerDashboard = () => {
   ];
 
   const quickActions = [
-    { icon: Plus, label: "Book Service", color: "bg-primary", route: "/customer/book" },
+    { icon: Plus, label: "Book Service", color: "bg-accent", route: "/customer/book" },
     { icon: Package, label: "My Orders", color: "bg-secondary", route: "/customer/orders" },
-    { icon: Gift, label: "Offers", color: "bg-accent", route: "/customer/offers" },
+    { icon: Gift, label: "Offers", color: "bg-primary", route: "/customer/offers" },
   ];
 
   const recentOrders = orders.filter(order => order.status === 'in-process');
@@ -122,7 +122,7 @@ const CustomerDashboard = () => {
 
       {recentOrders.length > 0 && (
         <div className="absolute top-20 left-4 right-4 z-10">
-          <Card className="bg-primary/95 text-primary-foreground backdrop-blur-md border-0 shadow-lg">
+          <Card className="bg-accent/95 text-accent-foreground backdrop-blur-md border-0 shadow-lg">
             <div className="p-3">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-background/20 rounded-full flex items-center justify-center">

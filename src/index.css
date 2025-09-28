@@ -4,74 +4,74 @@
 
 @layer base {
   :root {
-    --background: 240 20% 98%;
-    --foreground: 240 10% 15%;
+    --background: 0 0% 100%;
+    --foreground: 220 30% 20%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 15%;
+    --card-foreground: 220 30% 20%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 15%;
-    --primary: 250 80% 60%;
+    --popover-foreground: 220 30% 20%;
+    --primary: 220 50% 25%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 250 80% 85%;
-    --secondary: 262 50% 95%;
-    --secondary-foreground: 250 80% 60%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-    --accent: 262 30% 92%;
-    --accent-foreground: 250 80% 60%;
+    --primary-glow: 220 50% 85%;
+    --secondary: 260 40% 80%;
+    --secondary-foreground: 220 50% 25%;
+    --muted: 260 20% 95%;
+    --muted-foreground: 220 20% 50%;
+    --accent: 8 100% 70%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 250 80% 60%;
+    --border: 220 20% 90%;
+    --input: 220 20% 90%;
+    --ring: 8 100% 70%;
     --radius: 1rem;
-    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.1);
-    --shadow-medium: 0 8px 30px -8px hsl(var(--primary) / 0.15);
-    --shadow-strong: 0 10px 25px -10px hsl(var(--primary) / 0.4), 0 5px 10px -5px hsl(var(--primary) / 0.2);
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --shadow-soft: 0 4px 20px -4px hsl(220 50% 25% / 0.1);
+    --shadow-medium: 0 8px 30px -8px hsl(220 50% 25% / 0.15);
+    --shadow-strong: 0 10px 25px -10px hsl(220 50% 25% / 0.4), 0 5px 10px -5px hsl(220 50% 25% / 0.2);
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 30% 20%;
+    --sidebar-primary: 220 50% 25%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 260 20% 95%;
+    --sidebar-accent-foreground: 220 50% 25%;
+    --sidebar-border: 220 20% 90%;
+    --sidebar-ring: 8 100% 70%;
   }
 
   .dark {
-    --background: 240 10% 4%;
-    --foreground: 210 20% 95%;
-    --card: 240 5% 15% / 0.5;
-    --card-foreground: 210 20% 95%;
-    --popover: 240 5% 12% / 0.7;
-    --popover-foreground: 210 20% 95%;
-    --primary: 262 83% 73%;
-    --primary-foreground: 262 83% 15%;
-    --secondary: 240 4% 20% / 0.8;
-    --secondary-foreground: 210 20% 90%;
-    --muted: 240 4% 20%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 262 83% 73%;
-    --accent-foreground: 262 83% 15%;
+    --background: 220 50% 8%;
+    --foreground: 0 0% 95%;
+    --card: 220 40% 15% / 0.8;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 40% 12% / 0.9;
+    --popover-foreground: 0 0% 95%;
+    --primary: 8 100% 70%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 40% 80% / 0.2;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 220 30% 20%;
+    --muted-foreground: 220 20% 65%;
+    --accent: 8 100% 70%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 95%;
-    --border: 240 4% 25%;
-    --input: 240 4% 18% / 0.7;
-    --ring: 262 90% 78%;
-    --shadow-soft: 0 4px 12px -2px hsl(var(--primary) / 0.05), 0 2px 4px -2px hsl(0 0% 0% / 0.4);
-    --shadow-medium: 0 8px 24px -4px hsl(var(--primary) / 0.08), 0 4px 8px -4px hsl(0 0% 0% / 0.5);
-    --shadow-strong: 0 10px 30px -10px hsl(var(--primary) / 0.4), 0 8px 12px -8px hsl(0 0% 0% / 0.7);
-    --gradient-aurora: radial-gradient(ellipse at 50% 0%, hsl(var(--primary) / 0.1), transparent 70%),
-                       radial-gradient(ellipse at 0% 100%, hsl(280 80% 60% / 0.1), transparent 70%),
-                       radial-gradient(ellipse at 100% 100%, hsl(220 80% 60% / 0.1), transparent 70%);
-    --sidebar-background: 240 10% 4% / 0.8;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 262 83% 73%;
-    --sidebar-primary-foreground: 262 83% 15%;
-    --sidebar-accent: 240 4% 16% / 0.7;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 4% 20%;
-    --sidebar-ring: 262 83% 73%;
+    --border: 220 30% 25%;
+    --input: 220 30% 18% / 0.8;
+    --ring: 8 100% 70%;
+    --shadow-soft: 0 4px 12px -2px hsl(8 100% 70% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.4);
+    --shadow-medium: 0 8px 24px -4px hsl(8 100% 70% / 0.15), 0 4px 8px -4px hsl(0 0% 0% / 0.5);
+    --shadow-strong: 0 10px 30px -10px hsl(8 100% 70% / 0.4), 0 8px 12px -8px hsl(0 0% 0% / 0.7);
+    --gradient-aurora: radial-gradient(ellipse at 50% 0%, hsl(8 100% 70% / 0.1), transparent 70%),
+                       radial-gradient(ellipse at 0% 100%, hsl(260 40% 80% / 0.1), transparent 70%),
+                       radial-gradient(ellipse at 100% 100%, hsl(220 50% 25% / 0.1), transparent 70%);
+    --sidebar-background: 220 50% 8% / 0.9;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 8 100% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 30% 20% / 0.8;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 30% 25%;
+    --sidebar-ring: 8 100% 70%;
   }
 }
 
@@ -120,17 +120,17 @@
 
 @layer components {
   .service-button {
-    @apply w-full py-4 px-6 bg-primary text-primary-foreground rounded-xl font-semibold shadow-soft hover:shadow-medium transition-all duration-300 hover:scale-[1.02];
+    @apply w-full py-4 px-6 bg-accent text-accent-foreground rounded-xl font-semibold shadow-soft hover:shadow-medium transition-all duration-300 hover:scale-[1.02];
   }
 
   .dark .service-button {
       @apply hover:shadow-strong;
-      text-shadow: 0 0 5px hsl(var(--primary-foreground) / 0.5);
-      box-shadow: 0 0 20px -5px hsl(var(--primary) / 0.5);
+      text-shadow: 0 0 5px hsl(var(--accent-foreground) / 0.5);
+      box-shadow: 0 0 20px -5px hsl(var(--accent) / 0.5);
   }
   
   .role-card {
-    @apply p-6 bg-card rounded-2xl border-2 border-border hover:border-primary transition-all duration-300 cursor-pointer hover:shadow-medium;
+    @apply p-6 bg-card rounded-2xl border-2 border-border hover:border-accent transition-all duration-300 cursor-pointer hover:shadow-medium;
   }
 
   .dark .role-card {
@@ -139,11 +139,11 @@
   }
   
   .role-card.selected {
-    @apply border-primary bg-primary/5 shadow-medium;
+    @apply border-accent bg-accent/5 shadow-medium;
   }
 
   .dark .role-card.selected {
-      @apply bg-primary/10;
-      box--shadow: 0 0 24px -4px hsl(var(--primary) / 0.4);
+      @apply bg-accent/10;
+      box-shadow: 0 0 24px -4px hsl(var(--accent) / 0.4);
   }
 }

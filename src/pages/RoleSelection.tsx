@@ -41,16 +41,16 @@ const RoleSelection = () => {
           >
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Users className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                  <Users className="h-6 w-6 text-accent" />
                 </div>
               </div>
               <div className="flex-1">
                  <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-base">I'm a Customer</h3>
                   {selectedRole === 'customer' && (
-                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center animate-bounce-in">
-                      <Check className="h-4 w-4 text-primary-foreground" />
+                    <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center animate-bounce-in">
+                      <Check className="h-4 w-4 text-accent-foreground" />
                     </div>
                   )}
                 </div>
@@ -67,16 +67,16 @@ const RoleSelection = () => {
           >
             <div className="flex items-start space-x-4">
               <div className="flex-shrink-0">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                  <Shirt className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                  <Shirt className="h-6 w-6 text-accent" />
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-base">I'm a Launderer</h3>
                    {selectedRole === 'launderer' && (
-                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center animate-bounce-in">
-                      <Check className="h-4 w-4 text-primary-foreground" />
+                    <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center animate-bounce-in">
+                      <Check className="h-4 w-4 text-accent-foreground" />
                     </div>
                   )}
                 </div>

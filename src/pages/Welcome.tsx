@@ -33,8 +33,8 @@ const Welcome = () => {
           </div>
           
           <div className="mb-6">
-            <div className="w-20 h-20 mx-auto bg-primary rounded-2xl flex items-center justify-center mb-4 animate-bounce-in">
-              <Sparkles className="h-10 w-10 text-primary-foreground" />
+            <div className="w-20 h-20 mx-auto bg-accent rounded-2xl flex items-center justify-center mb-4 animate-bounce-in">
+              <Sparkles className="h-10 w-10 text-accent-foreground" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-2">CleanCare</h1>
             <p className="text-lg text-muted-foreground">Premium Laundry Service</p>
@@ -56,8 +56,8 @@ const Welcome = () => {
                 className={`service-card text-center transition-all duration-500 hover-lift`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-12 h-12 mx-auto bg-primary/10 rounded-xl flex items-center justify-center mb-3">
-                  <Icon className="h-6 w-6 text-primary" />
+                <div className="w-12 h-12 mx-auto bg-accent/10 rounded-xl flex items-center justify-center mb-3">
+                  <Icon className="h-6 w-6 text-accent" />
                 </div>
                 <h3 className="font-semibold text-sm mb-1">{feature.title}</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed">{feature.description}</p>
@@ -74,7 +74,7 @@ const Welcome = () => {
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Button variant="link" className="p-0 text-primary font-medium" onClick={() => navigate('/auth')}>Sign In</Button>
+              <Button variant="link" className="p-0 text-accent font-medium" onClick={() => navigate('/auth')}>Sign In</Button>
             </p>
           </div>
         </div>
