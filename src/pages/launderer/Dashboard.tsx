@@ -5,18 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { 
-  Plus, 
-  Package, 
-  Bell, 
-  Truck,
-  ChevronUp,
-  ChevronDown,
-  LogOut,
-  User,
-  BarChart2,
-  ShieldAlert
-} from "lucide-react";
+import { Plus, Package, Bell, Truck, ChevronUp, ChevronDown, LogOut, User, ChartBar as BarChart2, ShieldAlert } from "lucide-react";
 import MapComponent from "@/components/GoogleMap";
 import { useNavigate } from "react-router-dom";
 
@@ -35,10 +24,10 @@ const LaundererDashboard = () => {
   const newOrders = [];
 
   const quickActions = [
-    { icon: Plus, label: "New Order", color: "bg-blue-500", route: "/launderer/new-order" },
-    { icon: Package, label: "All Orders", color: "bg-orange-500", route: "/launderer/orders" },
-    { icon: BarChart2, label: "Revenue", color: "bg-green-500", route: "/launderer/revenue" },
-    { icon: ShieldAlert, label: "Dispute/Claim", color: "bg-red-500", route: "/launderer/dispute" },
+    { icon: Plus, label: "New Order", color: "bg-accent", route: "/launderer/new-order" },
+    { icon: Package, label: "All Orders", color: "bg-primary", route: "/launderer/orders" },
+    { icon: BarChart2, label: "Revenue", color: "bg-secondary", route: "/launderer/revenue" },
+    { icon: ShieldAlert, label: "Dispute/Claim", color: "bg-destructive", route: "/launderer/dispute" },
   ];
 
   return (
@@ -72,7 +61,7 @@ const LaundererDashboard = () => {
 
       {isOnline && newOrders.length > 0 && (
         <div className="absolute top-20 left-4 right-4 z-10">
-          <Card className="bg-primary/95 text-primary-foreground backdrop-blur-md border-0 shadow-lg">
+          <Card className="bg-accent/95 text-accent-foreground backdrop-blur-md border-0 shadow-lg">
             <div className="p-3">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-background/20 rounded-full flex items-center justify-center">

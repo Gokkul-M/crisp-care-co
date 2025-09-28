@@ -91,8 +91,8 @@ const BookService = () => {
               key={service.id}
               className={`p-4 cursor-pointer transition-all hover:shadow-medium ${
                 selectedService === service.id 
-                  ? 'border-primary bg-primary/5 shadow-medium' 
-                  : 'hover:border-primary/50'
+                  ? 'border-accent bg-accent/5 shadow-medium' 
+                  : 'hover:border-accent/50'
               }`}
               onClick={() => setSelectedService(service.id)}
             >
@@ -233,7 +233,7 @@ const BookService = () => {
           <div className="border-t border-border pt-2 mt-2">
             <div className="flex justify-between font-semibold">
               <span>Total</span>
-              <span className="text-primary">${totalAmount}</span>
+              <span className="text-accent">${totalAmount}</span>
             </div>
           </div>
         </Card>

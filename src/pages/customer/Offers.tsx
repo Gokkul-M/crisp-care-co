@@ -152,7 +152,7 @@ const Offers = () => {
                 </div>
 
                 {/* Offer Details */}
-                <div className="bg-gradient-primary text-white rounded-xl p-4 mb-4">
+                <div className="bg-gradient-to-r from-accent to-accent/80 text-white rounded-xl p-4 mb-4">
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <div className="text-2xl font-bold">{offer.discount}</div>
@@ -246,7 +246,7 @@ const Offers = () => {
       </Tabs>
 
       {/* Referral CTA */}
-      <Card className="service-card bg-gradient-primary text-white animate-fade-in p-4" style={{ animationDelay: '600ms' }}>
+      <Card className="service-card bg-gradient-to-r from-accent to-accent/80 text-white animate-fade-in p-4" style={{ animationDelay: '600ms' }}>
         <div className="text-center">
           <Users className="h-8 w-8 mx-auto mb-3 text-white/90" />
           <h3 className="font-bold text-lg mb-2">Refer Friends & Earn</h3>
